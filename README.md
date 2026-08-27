@@ -63,3 +63,8 @@ Texto sobre:
 |Documentação clara no PDF + repositório GitHub público com README completo|2|
 |||
 |TOTAL|10|
+
+## Membros do grupo:
+Davi: rm572772
+Guilherme: rm574229
+Lorenzo: rm575361
