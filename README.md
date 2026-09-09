@@ -80,13 +80,29 @@ Eduardo Backes Klauck (@BackesEdu) integra a divisão de trabalho como quinto me
 | --- | --- | --- |
 | Guilherme — @bkampdev | Estrutura e contratos; integração do notebook; regularização da equipe e entrega | [#1](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/1), [#4](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/4), [#12](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/12) |
 | Davi — @daviconinck | Dicionário e cenários de telemetria; validação dos dados; testes das regras | [#2](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/2), [#14](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/14), [#5](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/5) |
-| Lorenzo — @Rocha0306 | Algoritmo de decisão; cálculos energéticos; geração de dados com IA | [#3](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/3), [#6](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/6), [#13](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/13) |
-| Gabriel — @ItsTheContext | Análise assistida por IA; prints/evidências; revisão independente da entrega | [#7](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/7), [#10](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/10), [#15](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/15) |
-| Eduardo — @BackesEdu | Reflexão crítica; documentação do README; consolidação do relatório PDF | [#8](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/8), [#9](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/9), [#11](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/11) |
+| Lorenzo — @Rocha0306 | Código de decisão; geração de dados com IA; reflexão crítica | [#3](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/3), [#13](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/13), [#8](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/8) |
+| Gabriel — @ItsTheContext | Código de apresentação dos resultados e prints; análise por IA; revisão independente | [#7](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/7), [#10](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/10), [#15](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/15) |
+| Eduardo — @BackesEdu | Código dos cálculos energéticos e testes; README; relatório PDF | [#6](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/6), [#9](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/9), [#11](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/11) |
 
 Cada issue contém objetivo, pré-requisitos, arquivos sugeridos, passo a passo, exemplo, critérios de aceite e orientação de entrega ao próximo responsável. São três tarefas por integrante, com estimativas ajustáveis; cada autor deve produzir sua parte e ajudar quem integra o resultado.
 
-**Atribuição pendente:** as issues #8, #9 e #11 são de Eduardo no planejamento. O campo Assignees será preenchido após o aceite do convite, conforme checklist de #12. O nome no texto não equivale a uma atribuição formal do GitHub.
+**Atribuição pendente:** as issues #6, #9 e #11 são de Eduardo no planejamento. O campo Assignees será preenchido após o aceite do convite, conforme checklist de #12. O nome no texto não equivale a uma atribuição formal do GitHub.
+
+### Todos os cinco programam
+
+Revisão da divisão em 09/09: ninguém fica restrito a documentação, prompts ou prints. As responsabilidades abaixo indicam quem implementa; revisores ajudam sem assumir a autoria.
+
+| Autor | Entrega de código | Revisor inicial |
+| --- | --- | --- |
+| Guilherme | `src/missao.py`: execução dos cenários, tratamento de erros e integração no notebook (#4) | Lorenzo |
+| Davi | `src/validacao.py` e testes automatizados das regras (#14, #5) | Guilherme |
+| Lorenzo | `src/verificacao.py`: decisão e motivos; `src/geracao.py`: geração/importação de dados (#3, #13) | Guilherme |
+| Gabriel | `src/apresentacao.py`: formatação de decisão, motivos e energia, com testes (#10) | Davi; apoio inicial de Guilherme |
+| Eduardo | `src/energia.py`: função parametrizada de perdas, saldo e autonomia, com testes (#6) | Lorenzo |
+
+Os caminhos são entregáveis planejados, não arquivos já concluídos. Manter Python simples, funções pequenas e biblioteca padrão quando suficiente. Gabriel entrega primeiro a função de apresentação (até 12/09), depois as capturas finais (até 14/09), evitando bloquear a integração por causa de prints.
+
+Cada autor deve escrever sua parte, executar testes e explicar entradas, saídas e condições de erro. Medir participação por contribuição funcional e compreensão, não por quantidade de commits. Programação em par deve ser registrada honestamente. Combinar um primeiro exemplo pequeno e ajustar o apoio conforme dúvidas reais; não excluir ninguém do código por falta de histórico público.
 
 ### Sequência e metas internas
 
@@ -94,7 +110,7 @@ Cada issue contém objetivo, pré-requisitos, arquivos sugeridos, passo a passo,
 | --- | --- |
 | 10/09 | Contratos, dicionário dos dados e cenários definidos (#1, #2) |
 | 11/09 | Algoritmo, energia e validação prontos para integrar (#3, #6, #14) |
-| 12/09 | Notebook funcionando e extensão de geração integrada se disponível (#4, #13) |
+| 12/09 | Código de apresentação entregue (#10), notebook funcionando e extensão de geração integrada se disponível (#4, #13) |
 | 13/09 | Testes, análise por IA e reflexão revisados (#5, #7, #8) |
 | 14/09 | README e evidências de execução (#9, #10) |
 | 15/09 | PDF, revisão independente e conferência/envio com margem (#11, #15, #12) |
