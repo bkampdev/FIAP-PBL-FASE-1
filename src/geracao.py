@@ -27,11 +27,6 @@ MODULOS = ["suporte_vida", "energia", "comunicacao", "propulsao", "navegacao"]
 PASTA_ATUAL = os.path.dirname(os.path.abspath(__file__))
 CAMINHO_BASE = os.path.join(PASTA_ATUAL, "dados", "base_treinamento.json")
 
-
-# ---------------------------------------------------------------
-# LEITURA DA BASE
-# ---------------------------------------------------------------
-
 def pega_dados_treinamento(chave, caminho=CAMINHO_BASE):
     """Le a base de treinamento do arquivo JSON.
 
