@@ -10,7 +10,7 @@ def verificar_pre_decolagem(dados, energia, limites):
     """Aplica as regras de seguranca e devolve a decisao.
 
     dados   -> telemetria (#13)
-    energia -> resultado do calculo energetico (#6)
+    energia -> autonomia em horas retornada pelo calculo energetico (#6)
     limites -> faixas operacionais (#2)
 
     Retorna {"decisao": str, "motivos": list}
@@ -39,10 +39,10 @@ def verificar_pre_decolagem(dados, energia, limites):
     if "integridade_estrutural" not in dados:
         motivos.append("Campo ausente na telemetria: integridade_estrutural")
     else:
-        if dados["integridade_estrutural"] != "NOMINAL":
+        if dados["integridade_estrutural"] not in ("NOMINAL", 1):
             motivos.append(
-                "Integridade estrutural " + dados["integridade_estrutural"]
-                + ", esperado NOMINAL"
+                "Integridade estrutural " + str(dados["integridade_estrutural"])
+                + ", esperado NOMINAL ou 1"
             )
 
     if "modulos" not in dados:
@@ -56,14 +56,10 @@ def verificar_pre_decolagem(dados, energia, limites):
 
     if energia is None:
         motivos.append("Resultado energetico ausente")
-    elif "viavel" not in energia:
-        motivos.append("Resultado energetico sem indicador de viabilidade")
-    elif energia["viavel"] is not True:
-        saldo = energia.get("saldo_kwh", "desconhecido")
-        motivos.append("Energia insuficiente: saldo de " + str(saldo) + " kWh")
+    elif energia <= 0:
+        motivos.append("Energia insuficiente: autonomia de " + str(energia) + " h")
 
     if len(motivos) == 0:
         return {"decisao": "PRONTO PARA DECOLAR", "motivos": []}
 
     return {"decisao": "DECOLAGEM ABORTADA", "motivos": motivos}
-

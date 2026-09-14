@@ -23,8 +23,8 @@ INICIO verificar_pre_decolagem(dados, energia, limites)
 
     SE "integridade_estrutural" NAO EXISTE EM dados ENTAO
         adicionar "Campo ausente na telemetria: integridade_estrutural" em motivos
-    SENAO SE dados["integridade_estrutural"] DIFERENTE DE "NOMINAL" ENTAO
-        adicionar "Integridade estrutural {valor}, esperado NOMINAL" em motivos
+    SENAO SE dados["integridade_estrutural"] DIFERENTE DE "NOMINAL" E DIFERENTE DE 1 ENTAO
+        adicionar "Integridade estrutural {valor}, esperado NOMINAL ou 1" em motivos
     FIM SE
 
     SE "modulos" NAO EXISTE EM dados ENTAO
@@ -41,11 +41,8 @@ INICIO verificar_pre_decolagem(dados, energia, limites)
 
     SE energia E NULO ENTAO
         adicionar "Resultado energetico ausente" em motivos
-    SENAO SE "viavel" NAO EXISTE EM energia ENTAO
-        adicionar "Resultado energetico sem indicador de viabilidade" em motivos
-    SENAO SE energia["viavel"] DIFERENTE DE VERDADEIRO ENTAO
-        saldo <- energia["saldo_kwh"] OU "desconhecido"
-        adicionar "Energia insuficiente: saldo de {saldo} kWh" em motivos
+    SENAO SE energia MENOR OU IGUAL A ZERO ENTAO
+        adicionar "Energia insuficiente: autonomia de {energia} h" em motivos
     FIM SE
 
     SE tamanho(motivos) IGUAL A 0 ENTAO
