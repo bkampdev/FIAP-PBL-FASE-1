@@ -35,9 +35,8 @@ def pega_dados_treinamento(chave, caminho=CAMINHO_BASE):
     if not os.path.exists(caminho):
         raise FileNotFoundError("base de treinamento nao encontrada: " + caminho)
 
-    arquivo = open(caminho, encoding="utf-8")
-    conteudo = json.load(arquivo)
-    arquivo.close()
+    with open(caminho, encoding="utf-8") as arquivo:
+        conteudo = json.load(arquivo)
 
     if chave not in conteudo:
         raise ValueError("chave nao encontrada no arquivo: " + chave)
