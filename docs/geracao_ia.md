@@ -8,7 +8,7 @@ O modelo é o GaussianMixture do scikit-learn. É nao supervisionado e a tarefa 
 
 Acabou virando dois modelos, porque tenho dois tipos de dado. Os quatro campos numericos (temperatura interna, externa, energia e pressao) vao no GaussianMixture. Os modulos nao dao pra jogar nele, porque gaussiana cospe numero continuo e modulo é OK ou FALHA, nao tem meio termo. Entao pros modulos eu conto a frequencia de falha no historico e uso isso como probabilidade no sorteio. Continua sendo estimacao de densidade, só que na versao discreta.
 
-A base de treino fica em dados/base_treinamento.json, fora do codigo. Se depois a gente conseguir dados de verdade é só trocar o arquivo, nao precisa mexer em linha nenhuma.
+A base de treino fica em src/dados/base_treinamento.json, fora do codigo. Se depois a gente conseguir dados de verdade é só trocar o arquivo, nao precisa mexer em linha nenhuma.
 
 Pra rodar é necessário a lib do scikit-learn
 pip install numpy scikit-learn
