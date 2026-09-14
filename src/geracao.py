@@ -109,7 +109,7 @@ def gerar_telemetria(cenario, seed=None):
     MODELO_DADOS_NUMEROS.random_state = seed
     dados_novos_gerados_numeros = MODELO_DADOS_NUMEROS.sample(1)[0][0]
 
-    dados = {
+    dicionario_dados = {
         "temperatura_interna_c": round(float(dados_novos_gerados_numeros[0]), 2),
         "temperatura_externa_c": round(float(dados_novos_gerados_numeros[1]), 2),
         "energia_pct": round(float(dados_novos_gerados_numeros[2]), 2),
@@ -123,30 +123,30 @@ def gerar_telemetria(cenario, seed=None):
 
     for i in range(len(MODULOS)):
         if objeto_nrg.random() < MODELO_DADOS_MODULOS[i]:
-            dados["modulos"][MODULOS[i]] = "OK"
+            dicionario_dados["modulos"][MODULOS[i]] = "OK"
         else:
-            dados["modulos"][MODULOS[i]] = "FALHA"
+            dicionario_dados["modulos"][MODULOS[i]] = "FALHA"
 
     # --- cenario altera uma condicao (sobrescreve o sorteio) ---
     if cenario == "nominal":
         pass
 
     elif cenario == "energia_insuficiente":
-        dados["energia_pct"] = 45.0
-        dados["integridade_estrutural"] = "DEGRADADO"
+        dicionario_dados["energia_pct"] = 45.0
+        dicionario_dados["integridade_estrutural"] = "DEGRADADO"
 
     elif cenario == "falha_modulo":
-        dados["modulos"]["propulsao"] = "FALHA"
-        dados["integridade_estrutural"] = "CRITICO"
+        dicionario_dados["modulos"]["propulsao"] = "FALHA"
+        dicionario_dados["integridade_estrutural"] = "CRITICO"
 
     elif cenario == "falha_sensor":
-        dados["temperatura_interna_c"] = 55.0
-        dados["integridade_estrutural"] = "DEGRADADO"
+        dicionario_dados["temperatura_interna_c"] = 55.0
+        dicionario_dados["integridade_estrutural"] = "DEGRADADO"
 
     # se algum modulo caiu em FALHA no sorteio, a integridade acompanha
-    for modulo in dados["modulos"]:
-        if dados["modulos"][modulo] == "FALHA":
-            if dados["integridade_estrutural"] == "NOMINAL":
-                dados["integridade_estrutural"] = "CRITICO"
+    for modulo in dicionario_dados["modulos"]:
+        if dicionario_dados["modulos"][modulo] == "FALHA":
+            if dicionario_dados["integridade_estrutural"] == "NOMINAL":
+                dicionario_dados["integridade_estrutural"] = "CRITICO"
 
-    return dados
+    return dicionario_dados
