@@ -15,8 +15,8 @@ pip install numpy scikit-learn
 
 E realizar a chamada da funcao telemetria, exemplo após chamada
 
-import geracao
+from src.geracao import gerar_telemetria
 
-print(geracao.gerar_telemetria("nominal"))
+print(gerar_telemetria("nominal"))
 
 {'temperatura_interna_c': 20.09, 'temperatura_externa_c': -112.93, 'energia_pct': 88.9, 'pressao_tanque_kpa': 424.71, 'integridade_estrutural': 'NOMINAL', 'modulos': {'suporte_vida': 'OK', 'energia': 'OK', 'comunicacao': 'OK', 'propulsao': 'OK', 'navegacao': 'OK'}}
