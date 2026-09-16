@@ -39,6 +39,8 @@ Estados aceitos:
 | `perdas_pct` | Perdas aplicadas à energia inicial | número | % | 5 | 0 a 100 |
 | `potencia_media_kw` | Potência média para estimar autonomia | número | kW | 10 | maior que 0 quando usada |
 
+`energia_pct` e `carga_pct` são a mesma carga apresentada em dois contextos: telemetria e cálculo energético. Quando o bloco energético estiver presente, os valores devem ser iguais; divergência é erro de entrada e não uma condição operacional.
+
 A conta adotada pelo módulo de energia é:
 
 `energia_inicial = capacidade_kwh * carga_pct / 100`

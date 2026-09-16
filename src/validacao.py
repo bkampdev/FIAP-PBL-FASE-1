@@ -247,3 +247,16 @@ def _validar_entradas_energia(dados, erros):
             erros,
             minimo_exclusivo=0,
         )
+
+    # ``energia_pct`` é a telemetria da carga atual e ``carga_pct`` é o
+    # mesmo valor consumido pelo cálculo energético. Dois números diferentes
+    # fariam o verificador e a análise energética decidirem sobre cenários
+    # distintos.
+    if (
+        "energia_pct" in dados
+        and "carga_pct" in dados
+        and _eh_numero_finito(dados["energia_pct"])
+        and _eh_numero_finito(dados["carga_pct"])
+        and dados["energia_pct"] != dados["carga_pct"]
+    ):
+        erros.append("carga_pct deve ser igual a energia_pct")

@@ -1,9 +1,11 @@
 import math
 import unittest
 from copy import deepcopy
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from src.energia import calcular_energia
-from src.validacao import validar_telemetria
+from src.validacao import carregar_json, validar_telemetria
 from src.verificacao import verificar_pre_decolagem
 
 
@@ -36,9 +38,11 @@ def dados_nominais():
 
 
 class TestPreDecolagem(unittest.TestCase):
-    def verificar(self, dados=None, energia=5.6):
+    def verificar(self, dados=None, energia=None):
         if dados is None:
             dados = dados_nominais()
+        if energia is None:
+            energia = calcular_energia(100, 80, 20, 5, 10)
         return verificar_pre_decolagem(dados, energia, LIMITES)
 
     def test_nominal_pronto_e_sem_motivos(self):
@@ -111,13 +115,28 @@ class TestPreDecolagem(unittest.TestCase):
         dados = dados_nominais()
         dados["temperatura_interna_c"] = 31
         dados["modulos"]["propulsao"] = "FALHA"
-        resultado = self.verificar(dados, energia=0)
+        resultado = self.verificar(
+            dados, energia=calcular_energia(100, 80, 101, 0, 10)
+        )
 
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
         self.assertTrue(any("temperatura_interna_c 31 acima do maximo de 30" in m
                             for m in resultado["motivos"]))
         self.assertIn("Modulo critico em falha: propulsao", resultado["motivos"])
-        self.assertTrue(any("Energia insuficiente: autonomia de 0" in m for m in resultado["motivos"]))
+        self.assertTrue(any("Energia insuficiente: saldo de" in m for m in resultado["motivos"]))
+
+    def test_carregar_json_rejeita_arquivo_ausente_e_malformado(self):
+        dados, erros = carregar_json("arquivo-inexistente.json")
+        self.assertIsNone(dados)
+        self.assertTrue(any("arquivo não encontrado" in erro for erro in erros))
+
+        with TemporaryDirectory() as diretorio:
+            caminho = Path(diretorio) / "malformado.json"
+            caminho.write_text("{", encoding="utf-8")
+            dados, erros = carregar_json(caminho)
+
+        self.assertIsNone(dados)
+        self.assertTrue(any("JSON malformado" in erro for erro in erros))
 
     def test_validador_rejeita_campo_ausente(self):
         dados = dados_nominais()
@@ -145,6 +164,19 @@ class TestPreDecolagem(unittest.TestCase):
                 dados["energia_pct"] = valor
                 erros = validar_telemetria(dados)
                 self.assertTrue(any("energia_pct" in erro for erro in erros))
+
+    def test_validador_rejeita_carga_energetica_divergente(self):
+        dados = dados_nominais()
+        dados.update(
+            {
+                "capacidade_kwh": 100,
+                "carga_pct": 70,
+                "consumo_decolagem_kwh": 20,
+                "perdas_pct": 5,
+            }
+        )
+        erros = validar_telemetria(dados)
+        self.assertIn("carga_pct deve ser igual a energia_pct", erros)
 
     def test_validador_rejeita_estado_desconhecido_de_modulo(self):
         dados = dados_nominais()
@@ -176,35 +208,34 @@ class TestPreDecolagem(unittest.TestCase):
     def test_energia_exemplo_manual_100_kwh(self):
         # 100 * 0,80 = 80; perdas = 5% de 80 = 4;
         # energia útil = 76; saldo = 76 - 20 = 56; 56 / 10 = 5,6 h.
-        autonomia = calcular_energia(100, 80, 20, 5, 10)
-        self.assertAlmostEqual(5.6, autonomia, places=7)
+        energia = calcular_energia(100, 80, 20, 5, 10)
+        self.assertAlmostEqual(5.6, energia["autonomia_h"], places=7)
 
     def test_energia_saldo_positivo(self):
-        autonomia = calcular_energia(100, 100, 20, 0, 10)
-        self.assertAlmostEqual(8.0, autonomia, places=7)
+        energia = calcular_energia(100, 100, 20, 0, 10)
+        self.assertAlmostEqual(8.0, energia["autonomia_h"], places=7)
 
     def test_energia_saldo_zero(self):
-        autonomia = calcular_energia(100, 100, 100, 0, 10)
-        self.assertEqual(0, autonomia)
-        resultado = self.verificar(energia=autonomia)
+        energia = calcular_energia(100, 100, 100, 0, 10)
+        self.assertFalse(energia["viavel"])
+        self.assertIsNone(energia["autonomia_h"])
+        resultado = self.verificar(energia=energia)
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
-        self.assertTrue(any("Energia insuficiente: autonomia de 0" in m for m in resultado["motivos"]))
+        self.assertTrue(any("Energia insuficiente: saldo de 0.0" in m for m in resultado["motivos"]))
 
     def test_energia_saldo_negativo(self):
-        autonomia = calcular_energia(100, 100, 101, 0, 10)
-        self.assertEqual(0, autonomia)
-        resultado = self.verificar(energia=autonomia)
+        energia = calcular_energia(100, 100, 101, 0, 10)
+        self.assertFalse(energia["viavel"])
+        resultado = self.verificar(energia=energia)
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
 
     def test_potencia_zero_nao_divide_por_zero(self):
-        autonomia = calcular_energia(100, 80, 20, 5, 0)
-        self.assertEqual(0, autonomia)
+        with self.assertRaises(ValueError):
+            calcular_energia(100, 80, 20, 5, 0)
 
     def test_potencia_negativa_nao_libera_missao(self):
-        autonomia = calcular_energia(100, 80, 20, 5, -10)
-        self.assertLessEqual(autonomia, 0)
-        resultado = self.verificar(energia=autonomia)
-        self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
+        with self.assertRaises(ValueError):
+            calcular_energia(100, 80, 20, 5, -10)
 
 
 if __name__ == "__main__":
