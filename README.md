@@ -69,12 +69,11 @@ Davi: rm572772
 Guilherme: rm574229
 Lorenzo: rm575361
 Gabriel: rm574746
+Eduardo: rm575889
 
 ## Organização do trabalho — equipe de 5
 
 Planejamento revisado em **09/09/2026** a partir do capítulo 1 (páginas 13–15) e do [enunciado no FIAP ON](https://on.fiap.com.br/mod/assign/view.php?id=616742). Este é um plano de execução: as tarefas abaixo não estão sendo declaradas concluídas.
-
-Eduardo Backes Klauck (@BackesEdu) integra a divisão de trabalho como quinto membro; seu RM deve ser confirmado pelo próprio integrante. O convite de acesso ao GitHub ainda estava pendente na revisão.
 
 | Integrante | Responsabilidades | Issues detalhadas |
 | --- | --- | --- |
