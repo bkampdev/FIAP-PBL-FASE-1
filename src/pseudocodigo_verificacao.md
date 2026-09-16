@@ -1,3 +1,5 @@
+CONSTANTE MODULOS_CRITICOS <- ["suporte_vida", "energia", "comunicacao", "propulsao", "navegacao"]
+
 INICIO verificar_pre_decolagem(dados, energia, limites)
 
     motivos <- lista vazia
@@ -24,7 +26,7 @@ INICIO verificar_pre_decolagem(dados, energia, limites)
     SE "integridade_estrutural" NAO EXISTE EM dados ENTAO
         adicionar "Campo ausente na telemetria: integridade_estrutural" em motivos
     SENAO SE dados["integridade_estrutural"] DIFERENTE DE "NOMINAL" E DIFERENTE DE 1 ENTAO
-        adicionar "Integridade estrutural {valor}, esperado NOMINAL ou 1" em motivos
+        adicionar "Integridade estrutural {dados["integridade_estrutural"]}, esperado NOMINAL ou 1" em motivos
     FIM SE
 
     SE "modulos" NAO EXISTE EM dados ENTAO
@@ -39,10 +41,15 @@ INICIO verificar_pre_decolagem(dados, energia, limites)
         FIM PARA
     FIM SE
 
-    SE energia E NULO ENTAO
-        adicionar "Resultado energetico ausente" em motivos
-    SENAO SE energia MENOR OU IGUAL A ZERO ENTAO
-        adicionar "Energia insuficiente: autonomia de {energia} h" em motivos
+    SE energia NAO E UM DICIONARIO ENTAO
+        adicionar "Resultado energetico ausente ou invalido" em motivos
+    SENAO SE energia["viavel"] DIFERENTE DE VERDADEIRO ENTAO
+        saldo <- energia["saldo_kwh"]
+        SE saldo E NUMERO (inteiro ou real, exceto booleano) ENTAO
+            adicionar "Energia insuficiente: saldo de {saldo} kWh" em motivos
+        SENAO
+            adicionar "Resultado energetico invalido" em motivos
+        FIM SE
     FIM SE
 
     SE tamanho(motivos) IGUAL A 0 ENTAO
