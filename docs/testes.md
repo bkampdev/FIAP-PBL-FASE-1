@@ -23,6 +23,7 @@ O resultado obtido e a contagem final foram registrados após executar a suíte 
 | `null` | `energia_pct = None` | erro de tipo/número finito | `test_validador_rejeita_null_em_numero` |
 | Texto por número | temperatura `"22"` | erro de tipo/número finito | `test_validador_rejeita_texto_no_lugar_de_numero` |
 | Energia inválida | -1 e 101% | erro de domínio | `test_validador_rejeita_energia_fora_do_dominio` |
+| Carga divergente | `energia_pct` diferente de `carga_pct` | erro de entrada; verificação e cálculo usam a mesma carga | `test_validador_rejeita_carga_energetica_divergente` |
 | Estado de módulo desconhecido | `DESCONHECIDO` | erro de validação | `test_validador_rejeita_estado_desconhecido_de_modulo` |
 | Módulos incompletos | remove `navegacao` | erro citando módulo ausente | `test_validador_rejeita_modulos_incompletos` |
 | Não finitos | NaN, +inf, -inf | erro de número finito | `test_validador_rejeita_numeros_nao_finitos` |
@@ -45,7 +46,7 @@ A base de incidência das perdas é, portanto, a energia inicialmente disponíve
 
 ## Resultado obtido
 
-Execução realizada em **14/09/2026**, na branch `davi`.
+Execução realizada em **15/09/2026**, na branch `feat/analise-energetica`, integrada sobre a branch `davi`.
 
 Comando utilizado:
 
@@ -55,8 +56,8 @@ python -m unittest discover -s tests -v
 
 Resultado da execução:
 
-- **24 testes executados**
-- **24 testes aprovados**
+- **31 testes executados**
+- **31 testes aprovados**
 - **0 testes com falha**
 - Tempo de execução: **0.008s**
 - Status final: **OK**

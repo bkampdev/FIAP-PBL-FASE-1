@@ -29,9 +29,9 @@ DADOS_NOMINAIS = {
 
 class VerificarPreDecolagemTest(unittest.TestCase):
     def test_aceita_autonomia_retornada_por_calcular_energia(self):
-        autonomia_h = calcular_energia(100, 80, 20, 5, 10)
+        energia = calcular_energia(100, 80, 20, 5, 10)
 
-        resultado = verificar_pre_decolagem(DADOS_NOMINAIS, autonomia_h, LIMITES)
+        resultado = verificar_pre_decolagem(DADOS_NOMINAIS, energia, LIMITES)
 
         self.assertEqual("PRONTO PARA DECOLAR", resultado["decisao"])
         self.assertEqual([], resultado["motivos"])
@@ -39,21 +39,27 @@ class VerificarPreDecolagemTest(unittest.TestCase):
     def test_aceita_integridade_nominal_representada_por_um(self):
         dados = dict(DADOS_NOMINAIS, integridade_estrutural=1)
 
-        resultado = verificar_pre_decolagem(dados, 5.6, LIMITES)
+        resultado = verificar_pre_decolagem(
+            dados, calcular_energia(100, 80, 20, 5, 10), LIMITES
+        )
 
         self.assertEqual("PRONTO PARA DECOLAR", resultado["decisao"])
         self.assertEqual([], resultado["motivos"])
 
     def test_aborta_quando_autonomia_for_zero(self):
-        resultado = verificar_pre_decolagem(DADOS_NOMINAIS, 0, LIMITES)
+        resultado = verificar_pre_decolagem(
+            DADOS_NOMINAIS, calcular_energia(100, 80, 80, 0, 10), LIMITES
+        )
 
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
-        self.assertIn("Energia insuficiente: autonomia de 0 h", resultado["motivos"])
+        self.assertIn("Energia insuficiente: saldo de 0.0 kWh", resultado["motivos"])
 
     def test_aborta_sem_erro_quando_integridade_for_zero(self):
         dados = dict(DADOS_NOMINAIS, integridade_estrutural=0)
 
-        resultado = verificar_pre_decolagem(dados, 5.6, LIMITES)
+        resultado = verificar_pre_decolagem(
+            dados, calcular_energia(100, 80, 20, 5, 10), LIMITES
+        )
 
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
         self.assertIn(

@@ -1,4 +1,6 @@
+import math
 import unittest
+
 from src.energia import calcular_energia
 
 class TestEnergia(unittest.TestCase):
@@ -18,17 +20,34 @@ class TestEnergia(unittest.TestCase):
         self.assertFalse(res["viavel"])
         self.assertIsNone(res["autonomia_h"])
 
-    def test_potencia_ausente_ou_zero(self):
+    def test_potencia_ausente(self):
         res_none = calcular_energia(100, 80, 20, 10, None)
+        self.assertTrue(res_none["viavel"])
         self.assertIsNone(res_none["autonomia_h"])
-        
-        res_zero = calcular_energia(100, 80, 20, 10, 0)
-        self.assertIsNone(res_zero["autonomia_h"])
 
-    def test_carga_ou_entrada_invalida(self):
-        res = calcular_energia(100, 150, 20, 10, 10) # Carga > 100%
-        self.assertFalse(res["viavel"])
-        self.assertIsNone(res["autonomia_h"])
+    def test_rejeita_entradas_fora_do_dominio(self):
+        casos = [
+            (100, 150, 20, 10, 10),
+            (0, 80, 20, 10, 10),
+            (100, 80, -1, 10, 10),
+            (100, 80, 20, 10, 0),
+            (100, 80, 20, 10, -1),
+        ]
+        for argumentos in casos:
+            with self.subTest(argumentos=argumentos):
+                with self.assertRaises(ValueError):
+                    calcular_energia(*argumentos)
+
+    def test_rejeita_numeros_nao_finitos(self):
+        casos = [
+            (math.nan, 80, 20, 10, 10),
+            (100, 80, math.nan, 10, 10),
+            (100, 80, 20, 10, math.nan),
+        ]
+        for argumentos in casos:
+            with self.subTest(argumentos=argumentos):
+                with self.assertRaises(ValueError):
+                    calcular_energia(*argumentos)
 
 if __name__ == '__main__':
     unittest.main()

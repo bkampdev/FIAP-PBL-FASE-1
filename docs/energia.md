@@ -22,8 +22,9 @@
    $$E_{saldo} = E_{util} - \text{consumo\_decolagem\_kwh}$$
 
 5. Autonomia Temporal ($A_h$) e Viabilidade:
-   * Se $E_{saldo} \ge 0$ e $\text{potencia\_media\_kw} > 0$: $\text{viavel} = \text{True}$ e $A_h = \frac{E_{saldo}}{\text{potencia\_media\_kw}}$.
-   * Se $E_{saldo} < 0$ ou potência inválida/ausente: $\text{viavel} = \text{False}$ e $A_h = \text{None}$.
+   * Se $E_{saldo} > 0$: $\text{viavel} = \text{True}$. Quando $\text{potencia\_media\_kw}$ é informada e positiva, $A_h = \frac{E_{saldo}}{\text{potencia\_media\_kw}}$; sem potência, $A_h = \text{None}$.
+   * Se $E_{saldo} \le 0$: $\text{viavel} = \text{False}$ e $A_h = \text{None}$.
+   * Capacidade, consumo, percentuais e potência informada devem ser números finitos nos domínios indicados. Valores inválidos, inclusive potência zero/negativa, geram `ValueError`.
 
 ## 3. Exemplo Calculado Manualmente
 * Dados: Capacidade = 100 kWh | Carga = 80% | Perdas = 10% | Decolagem = 20 kWh | Potência = 10 kW

@@ -10,7 +10,7 @@ def verificar_pre_decolagem(dados, energia, limites):
     """Aplica as regras de seguranca e devolve a decisao.
 
     dados   -> telemetria (#13)
-    energia -> autonomia em horas retornada pelo calculo energetico (#6)
+    energia -> dicionário retornado pelo cálculo energético (#6)
     limites -> faixas operacionais (#2)
 
     Retorna {"decisao": str, "motivos": list}
@@ -54,10 +54,14 @@ def verificar_pre_decolagem(dados, energia, limites):
             elif dados["modulos"][modulo] == "FALHA":
                 motivos.append("Modulo critico em falha: " + modulo)
 
-    if energia is None:
-        motivos.append("Resultado energetico ausente")
-    elif energia <= 0:
-        motivos.append("Energia insuficiente: autonomia de " + str(energia) + " h")
+    if not isinstance(energia, dict):
+        motivos.append("Resultado energetico ausente ou invalido")
+    elif energia.get("viavel") is not True:
+        saldo = energia.get("saldo_kwh")
+        if isinstance(saldo, (int, float)) and not isinstance(saldo, bool):
+            motivos.append("Energia insuficiente: saldo de " + str(saldo) + " kWh")
+        else:
+            motivos.append("Resultado energetico invalido")
 
     if len(motivos) == 0:
         return {"decisao": "PRONTO PARA DECOLAR", "motivos": []}
