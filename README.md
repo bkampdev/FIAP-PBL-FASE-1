@@ -1,151 +1,145 @@
-# Informações no site:
+# Relatório operacional de pré-decolagem — Fase 1
 
-## ATIVIDADE INTEGRADORA – RELATÓRIO OPERACIONAL DE PRÉ-DECOLAGEM
+Projeto acadêmico da FIAP que organiza telemetria sintética, valida os dados,
+calcula o balanço energético e decide entre `PRONTO PARA DECOLAR` e
+`DECOLAGEM ABORTADA`. A decisão é determinística, explicável e sempre
+apresenta os motivos de uma falha.
 
+> **Escopo:** simulação didática. Os dados e limites não são parâmetros
+> certificados de uma nave real, e a IA não autoriza operações.
 
-## Introdução
+## Entrega final
 
-**1.1 Organização e descrição da telemetria**
-Interpretar dados referentes a:
--   Temperatura interna e externa;
--   Integridade estrutural (0/1);
--   Níveis de energia (%);
--   Pressão dos tanques;
--   Status dos módulos críticos.
+- [Relatório completo em PDF](relatorio/relatorio-pre-decolagem.pdf)
+- [Versão textual editável do relatório](relatorio/relatorio-pre-decolagem.md)
+- [Fonte executável do PDF](scripts/gerar_relatorio.py)
+- [Notebook executado](notebooks/pre_decolagem.ipynb)
+- [Checklist de entrega](docs/entrega.md)
+- [Revisão técnica](docs/revisao-final.md)
 
-**1.2 Algoritmo de verificação**
-Construir um algoritmo (fluxograma/pseudocódigo) capaz de decidir: “PRONTO PARA DECOLAR” ou “DECOLAGEM ABORTADA” com base em faixas seguras predefinidas.
+O repositório público é:
+[github.com/bkampdev/FIAP-PBL-FASE-1](https://github.com/bkampdev/FIAP-PBL-FASE-1).
 
-**1.3 Script em Python**
-Implementar a lógica do algoritmo em Python, simulando:
--   Leitura dos dados;
--   Execução das verificações;
--   Resultado final impresso.
+## Evidências da execução
 
-**1.4 Análise energética**
-Calcular autonomia inicial considerando:
--   Capacidade total (kwh);
--   Carga atual (%);
--   Consumo estimado na decolagem;
--   Perdas energéticas.
+As imagens abaixo foram geradas a partir dos outputs persistidos do notebook
+executado, sem alteração dos valores. O procedimento e a versão de origem
+estão documentados em [`evidencias/README.md`](evidencias/README.md).
 
-**1.5 Análise assistida por IA**
-Solicitar à IA:
--   Classificação dos dados;
--   Identificação de possíveis anomalias;
--   Sugestões de risco.
+### Cenário nominal
 
-**1.6 Reflexão crítica**
-Texto sobre:
--   Ética e responsabilidade;
--   Impacto social da exploração espacial;
--   Sustentabilidade tecnológica.
+![Cenário nominal com decisão PRONTO PARA DECOLAR](evidencias/01-nominal.png)
 
-## 2 ENTREGÁVEIS
+### Aborto por temperatura
 
-**Em relação aos entregáveis, é necessário:**
+![Cenário com temperatura interna fora da faixa e decisão DECOLAGEM ABORTADA](evidencias/02-aborto.png)
 
--   Um relatório em PDF contendo todos os dados pedidos na atividade integradora (códigos, análises, algoritmos etc.);
--   Link do repositório  **público**  no GitHub contendo:
-    -   Notebook Python (.ipynb);
--   Arquivo README.md contendo:
-    -   Explicação do projeto;
-    -   Prints da execução;
-    -   Instruções de execução do código.
+### Aborto por energia
 
-**3 Critérios de avaliação (10 pontos totais)**
-|Criterio|Pontos  |
-|--|--|
-|Organização da telemetria e clareza na apresentação dos dados| 2 |
-|Algoritmo de verificação bem estruturado (fluxograma ou pseudocódigo)|2|
-|Script Python funcional realizando todas as verificações da missão|2|
-|Análise energética correta com cálculos apresentados|2|
-|Documentação clara no PDF + repositório GitHub público com README completo|2|
-|||
-|TOTAL|10|
+![Cenário com saldo energético negativo e decisão DECOLAGEM ABORTADA](evidencias/03-energia.png)
 
-## Membros do grupo:
-Davi: rm572772
-Guilherme: rm574229
-Lorenzo: rm575361
-Gabriel: rm574746
-Eduardo: rm575889
+## Como executar
 
-## Execução local
-
-O núcleo do projeto roda sem API key e sem acesso à internet após a instalação
-das dependências. A partir da raiz do repositório:
+Requer Python 3.10 ou superior. O núcleo funciona localmente, sem API key e
+sem internet depois da instalação das dependências.
 
 ```sh
+git clone https://github.com/bkampdev/FIAP-PBL-FASE-1.git
+cd FIAP-PBL-FASE-1
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
-jupyter notebook notebooks/pre_decolagem.ipynb
+python -m jupyter notebook notebooks/pre_decolagem.ipynb
 ```
 
-No Jupyter, reinicie o kernel e execute todas as células em ordem. O notebook
-carrega os JSONs versionados e demonstra o cenário nominal, a falha de
-temperatura e a falha energética. A saída exibida vem de
-`src.apresentacao.formatar_resultado`, que apenas apresenta o resultado de
-`src.missao.executar_cenario` sem recalcular a decisão ou a energia.
+No Jupyter, reinicie o kernel e execute todas as células em ordem. Para uma
+execução não interativa e reproduzível:
 
-## Organização do trabalho — equipe de 5
+```sh
+python -m jupyter nbconvert --to notebook --execute --inplace notebooks/pre_decolagem.ipynb
+```
 
-Planejamento revisado em **09/09/2026** a partir do capítulo 1 (páginas 13–15) e do [enunciado no FIAP ON](https://on.fiap.com.br/mod/assign/view.php?id=616742). Este é um plano de execução: as tarefas abaixo não estão sendo declaradas concluídas.
+## Fluxo da solução
 
-| Integrante | Responsabilidades | Issues detalhadas |
-| --- | --- | --- |
-| Guilherme — @bkampdev | Estrutura e contratos; integração do notebook; regularização da equipe e entrega | [#1](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/1), [#4](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/4), [#12](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/12) |
-| Davi — @daviconinck | Dicionário e cenários de telemetria; validação dos dados; testes das regras | [#2](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/2), [#14](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/14), [#5](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/5) |
-| Lorenzo — @Rocha0306 | Código de decisão; geração de dados com IA; reflexão crítica | [#3](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/3), [#13](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/13), [#8](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/8) |
-| Gabriel — @ItsTheContext | Código de apresentação dos resultados e prints; análise por IA; revisão independente | [#7](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/7), [#10](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/10), [#15](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/15) |
-| Eduardo — @BackesEdu | Código dos cálculos energéticos e testes; README; relatório PDF | [#6](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/6), [#9](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/9), [#11](https://github.com/bkampdev/FIAP-PBL-FASE-1/issues/11) |
+1. `src.validacao.carregar_json` lê o cenário e trata arquivo ausente ou JSON
+   malformado.
+2. `src.validacao.validar_telemetria` separa erro de formato de falha
+   operacional.
+3. `src.energia.calcular_energia` calcula energia inicial, perdas, energia útil,
+   saldo e autonomia.
+4. `src.verificacao.verificar_pre_decolagem` avalia todas as regras e acumula
+   os motivos de aborto.
+5. `src.missao.executar_cenario` integra o fluxo e produz um resultado único.
+6. `src.apresentacao.formatar_resultado` transforma o resultado em texto sem
+   recalcular decisão ou energia.
 
-Cada issue contém objetivo, pré-requisitos, arquivos sugeridos, passo a passo, exemplo, critérios de aceite e orientação de entrega ao próximo responsável. São três tarefas por integrante, com estimativas ajustáveis; cada autor deve produzir sua parte e ajudar quem integra o resultado.
+O notebook demonstra quatro casos: nominal, temperatura insegura, energia
+insuficiente e entrada inválida. Os JSONs ficam em `dados/`.
 
-**Atribuição pendente:** as issues #6, #9 e #11 são de Eduardo no planejamento. O campo Assignees será preenchido após o aceite do convite, conforme checklist de #12. O nome no texto não equivale a uma atribuição formal do GitHub.
+## Limites didáticos
 
-### Todos os cinco programam
-
-Revisão da divisão em 09/09: ninguém fica restrito a documentação, prompts ou prints. As responsabilidades abaixo indicam quem implementa; revisores ajudam sem assumir a autoria.
-
-| Autor | Entrega de código | Revisor inicial |
-| --- | --- | --- |
-| Guilherme | `src/missao.py`: execução dos cenários, tratamento de erros e integração no notebook (#4) | Lorenzo |
-| Davi | `src/validacao.py` e testes automatizados das regras (#14, #5) | Guilherme |
-| Lorenzo | `src/verificacao.py`: decisão e motivos; `src/geracao.py`: geração/importação de dados (#3, #13) | Guilherme |
-| Gabriel | `src/apresentacao.py`: formatação de decisão, motivos e energia, com testes (#10) | Davi; apoio inicial de Guilherme |
-| Eduardo | `src/energia.py`: função parametrizada de perdas, saldo e autonomia, com testes (#6) | Lorenzo |
-
-Os caminhos são entregáveis planejados, não arquivos já concluídos. Manter Python simples, funções pequenas e biblioteca padrão quando suficiente. Gabriel entrega primeiro a função de apresentação (até 12/09), depois as capturas finais (até 14/09), evitando bloquear a integração por causa de prints.
-
-Cada autor deve escrever sua parte, executar testes e explicar entradas, saídas e condições de erro. Medir participação por contribuição funcional e compreensão, não por quantidade de commits. Programação em par deve ser registrada honestamente. Combinar um primeiro exemplo pequeno e ajustar o apoio conforme dúvidas reais; não excluir ninguém do código por falta de histórico público.
-
-### Sequência e metas internas
-
-| Meta sugerida | Resultado esperado |
+| Campo | Faixa segura inclusiva |
 | --- | --- |
-| 10/09 | Contratos, dicionário dos dados e cenários definidos (#1, #2) |
-| 11/09 | Algoritmo, energia e validação prontos para integrar (#3, #6, #14) |
-| 12/09 | Código de apresentação entregue (#10), notebook funcionando e extensão de geração integrada se disponível (#4, #13) |
-| 13/09 | Testes, análise por IA e reflexão revisados (#5, #7, #8) |
-| 14/09 | README e evidências de execução (#9, #10) |
-| 15/09 | PDF, revisão independente e conferência/envio com margem (#11, #15, #12) |
+| Temperatura interna | 15 a 30 °C |
+| Temperatura externa | -150 a 120 °C |
+| Energia | 50 a 100% |
+| Pressão do tanque | 90 a 110 kPa |
+| Integridade estrutural | 1 |
+| Módulos críticos | todos em `OK` |
 
-Essas metas são propostas do grupo, não prazos adicionais da FIAP. **Prazo oficial exibido no portal: 16/09/2026 às 23h59.** Em 09/09 a atividade estava com entrega pendente.
+A viabilidade energética exige saldo estritamente positivo após perdas e
+consumo da decolagem. O contrato completo está em
+[`docs/telemetria.md`](docs/telemetria.md).
 
-### Como usar o Project
+## Estrutura do repositório
 
-O acompanhamento fica no [Roadmap PBL](https://github.com/users/bkampdev/projects/5). Fluxo: **Backlog → Ready → In progress → In review → Done**. Mover para In progress quando começar; pedir revisão de outro integrante antes de concluir; comentar bloqueios na issue mencionando a dependência. Evitar editar o mesmo notebook simultaneamente: combinar alterações por branch/PR com Guilherme.
+```text
+dados/       cenários JSON reproduzíveis
+docs/        telemetria, algoritmo, energia, IA, reflexão e revisão
+evidencias/  imagens geradas a partir da execução do notebook
+notebooks/   notebook principal da atividade
+relatorio/   PDF final e versão textual editável
+scripts/     fontes executáveis dos artefatos finais
+src/         módulos Python da solução
+tests/       suíte automatizada
+```
 
-### Cuidados para a entrega
+## Correspondência com o enunciado do FIAP ON
 
-- O núcleo obrigatório é: telemetria, algoritmo, Python, energia, análise assistida por IA e reflexão; PDF com o conteúdo pedido; repositório público com notebook `.ipynb`; README com explicação, prints e execução.
-- A geração de dados por IA (#13) é uma extensão solicitada pelo grupo e permanece com Lorenzo. Não substitui a análise assistida por IA de #7. Manter execução local sem credenciais para o núcleo obrigatório.
-- Dados e faixas de segurança são hipóteses didáticas, não parâmetros certificados de uma nave real. A IA não substitui as verificações determinísticas nem a revisão humana.
-- Na consulta de 09/09, o grupo da atividade no FIAP ON mostrava apenas Guilherme e Davi. Confirmar e regularizar os cinco integrantes antes da entrega (#12); participar do GitHub não inclui automaticamente alguém no grupo da FIAP.
-- O capítulo local menciona 15 pontos, enquanto o portal atual e o enunciado acima indicam 10. Os entregáveis centrais coincidem; usar o portal como referência atual e esclarecer a divergência com a tutoria se necessário.
-- Não publicar o PDF didático exclusivo do aluno, senhas ou API keys. O PDF a entregar é o relatório produzido pelo grupo.
+| Requisito | Evidência principal |
+| --- | --- |
+| 1.1 Telemetria | `docs/telemetria.md`, `dados/*.json`, notebook |
+| 1.2 Algoritmo | `docs/algoritmo.md`, `src/pseudocodigo_verificacao.md` |
+| 1.3 Script Python | `src/`, notebook e 48 testes automatizados |
+| 1.4 Análise energética | `src/energia.py`, `docs/energia.md`, notebook |
+| 1.5 Análise assistida por IA | `docs/analise-ia.md` |
+| 1.6 Reflexão crítica | `docs/reflexao_critica.md` |
+| PDF completo | `relatorio/relatorio-pre-decolagem.pdf` |
+| Prints e execução | `evidencias/` e esta página |
 
-As instruções finais de execução, prints e link do relatório serão acrescentados em #9 após os artefatos existirem e serem testados. Não considerar a atividade enviada até o portal confirmar o envio (#12).
+## Equipe — Grupo 16
+
+| Integrante | RM | Contribuição principal |
+| --- | --- | --- |
+| Davi Coninck Cassaro | RM572772 | telemetria, validação e testes |
+| Guilherme Cardoso Bremenkamp | RM574229 | integração dos cenários e notebook |
+| Lorenzo Mendes Rocha | RM575361 | verificação, geração sintética e reflexão |
+| Gabriel Gonzales | RM574746 | análise por IA, apresentação e revisão |
+| Eduardo Backes Klauck | RM575889 | energia, documentação e relatório |
+
+Os cinco integrantes aparecem no Grupo 16 da atividade no FIAP ON, conferido
+em 16/09/2026. A atividade só é considerada entregue depois da confirmação do
+envio no portal; arquivos no GitHub não substituem essa etapa.
+
+## Observações sobre IA
+
+A análise assistida por IA classifica os cenários, identifica anomalias e
+sugere riscos, sempre revisados contra os dados e o código. O módulo
+`src/geracao.py` usa `GaussianMixture` como extensão opcional para gerar dados
+sintéticos, mas não participa da decisão autoritativa nem é necessário para
+executar o notebook principal.
+
+## Licença
+
+Consulte [`LICENSE`](LICENSE).
