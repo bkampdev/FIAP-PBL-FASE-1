@@ -43,12 +43,16 @@ INICIO verificar_pre_decolagem(dados, energia, limites)
 
     SE energia NAO E UM DICIONARIO ENTAO
         adicionar "Resultado energetico ausente ou invalido" em motivos
-    SENAO SE energia["viavel"] DIFERENTE DE VERDADEIRO ENTAO
-        saldo <- energia["saldo_kwh"]
-        SE saldo E NUMERO (inteiro ou real, exceto booleano) ENTAO
-            adicionar "Energia insuficiente: saldo de {saldo} kWh" em motivos
-        SENAO
-            adicionar "Resultado energetico invalido" em motivos
+    SENAO
+        viavel <- obter "viavel" de energia, ou NULO se a chave estiver ausente
+        saldo <- obter "saldo_kwh" de energia, ou NULO se a chave estiver ausente
+
+        SE viavel DIFERENTE DE VERDADEIRO ENTAO
+            SE saldo E NUMERO (inteiro ou real, exceto booleano) ENTAO
+                adicionar "Energia insuficiente: saldo de {saldo} kWh" em motivos
+            SENAO
+                adicionar "Resultado energetico invalido" em motivos
+            FIM SE
         FIM SE
     FIM SE
 
