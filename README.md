@@ -71,6 +71,25 @@ Lorenzo: rm575361
 Gabriel: rm574746
 Eduardo: rm575889
 
+## Execução local
+
+O núcleo do projeto roda sem API key e sem acesso à internet após a instalação
+das dependências. A partir da raiz do repositório:
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m unittest discover -s tests -v
+jupyter notebook notebooks/pre_decolagem.ipynb
+```
+
+No Jupyter, reinicie o kernel e execute todas as células em ordem. O notebook
+carrega os JSONs versionados e demonstra o cenário nominal, a falha de
+temperatura e a falha energética. A saída exibida vem de
+`src.apresentacao.formatar_resultado`, que apenas apresenta o resultado de
+`src.missao.executar_cenario` sem recalcular a decisão ou a energia.
+
 ## Organização do trabalho — equipe de 5
 
 Planejamento revisado em **09/09/2026** a partir do capítulo 1 (páginas 13–15) e do [enunciado no FIAP ON](https://on.fiap.com.br/mod/assign/view.php?id=616742). Este é um plano de execução: as tarefas abaixo não estão sendo declaradas concluídas.
