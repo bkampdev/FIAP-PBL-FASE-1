@@ -25,6 +25,17 @@ class ExecutarCenarioTest(unittest.TestCase):
         self.assertTrue(resultado["energia"]["viavel"])
         self.assertEqual(resultado["energia"]["saldo_kwh"], 56.0)
 
+    def test_limites_padrao_seguem_contrato_documentado(self):
+        self.assertEqual(
+            LIMITES_PADRAO,
+            {
+                "temperatura_interna_c": (15, 30),
+                "temperatura_externa_c": (-150, 120),
+                "energia_pct": (50, 100),
+                "pressao_tanque_kpa": (90, 110),
+            },
+        )
+
     def test_entrada_estruturalmente_invalida_aborta_sem_calcular_energia(self):
         dados = self.carregar_cenario("nominal.json")
         dados["energia_pct"] = 120

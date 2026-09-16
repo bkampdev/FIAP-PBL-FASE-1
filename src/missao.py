@@ -21,8 +21,8 @@ from src.verificacao import verificar_pre_decolagem
 LIMITES_PADRAO = {
     "temperatura_interna_c": (15, 30),
     "temperatura_externa_c": (-150, 120),
-    "energia_pct": (20, 100),
-    "pressao_tanque_kpa": (1, 1000),
+    "energia_pct": (50, 100),
+    "pressao_tanque_kpa": (90, 110),
 }
 
 CAMPOS_ENERGIA_CENARIO = (
