@@ -1,0 +1,19 @@
+{
+  "temperatura_interna_c": 22,
+  "temperatura_externa_c": -50,
+  "integridade_estrutural": 1,
+  "energia_pct": 80,
+  "pressao_tanque_kpa": 100,
+  "modulos": {
+    "suporte_vida": "OK",
+    "energia": "OK",
+    "comunicacao": "OK",
+    "propulsao": "OK",
+    "navegacao": "OK"
+  },
+  "capacidade_kwh": 100,
+  "carga_pct": 80,
+  "consumo_decolagem_kwh": 80,
+  "perdas_pct": 5,
+  "potencia_media_kw": 10
+}
