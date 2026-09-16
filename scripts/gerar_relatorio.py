@@ -75,6 +75,10 @@ styles.add(ParagraphStyle(
     textColor=colors.HexColor("#C8D4F1"), alignment=TA_LEFT,
 ))
 styles.add(ParagraphStyle(
+    "LinkCapa", fontName=FONTE_BOLD, fontSize=10.5, leading=14,
+    textColor=colors.HexColor("#67E8D0"), alignment=TA_LEFT,
+))
+styles.add(ParagraphStyle(
     "Secao", fontName=FONTE_BOLD, fontSize=20, leading=24,
     textColor=AZUL, spaceBefore=5, spaceAfter=10,
 ))
@@ -224,7 +228,13 @@ def construir():
         Paragraph("RELATÓRIO OPERACIONAL<br/>DE PRÉ-DECOLAGEM", styles["TituloCapa"]),
         Spacer(1, 6 * mm),
         p("Atividade Integradora · Decolagem da Missão", "SubCapa"),
-        Spacer(1, 42 * mm),
+        Spacer(1, 6 * mm),
+        p(
+            '<link href="https://github.com/bkampdev/FIAP-PBL-FASE-1" '
+            'color="#67E8D0">github.com/bkampdev/FIAP-PBL-FASE-1</link>',
+            "LinkCapa",
+        ),
+        Spacer(1, 31 * mm),
         p("Davi Coninck Cassaro · RM572772", "SubCapa"),
         p("Guilherme Cardoso Bremenkamp · RM574229", "SubCapa"),
         p("Lorenzo Mendes Rocha · RM575361", "SubCapa"),
