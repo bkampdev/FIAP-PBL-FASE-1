@@ -4,95 +4,91 @@
 
 | Campo | Valor |
 | --- | --- |
-| Commit avaliado | `89a0fbd542aee0e1d9c250fbdf6bea5e7cc2feeb` |
-| Branch/PR | `15-revisar-independentemente-execução-documentação-e-consistência-da-entrega` / PR #26 |
-| Data da revisão | 16/09/2026 |
-| Revisor | Gabriel (@ItsTheContext) |
-| Ambiente | macOS, Python 3.14.7 global; `requirements.txt` declara `numpy` e `scikit-learn` |
-| Cópia limpa | clone local em diretório temporário independente |
+| Código avaliado | `a487de440d1fd0851113ebd7a585fc0522174b86` (merge da PR #27) |
+| Branch da revisão | `15-revisar-independentemente-execução-documentação-e-consistência-da-entrega` / PR #26 |
+| Data da atualização técnica | 16/09/2026 |
+| Responsável pela revisão independente | Gabriel (@ItsTheContext) |
+| Atualização técnica | Guilherme, com execução automatizada registrada abaixo |
+| Ambiente da execução limpa | macOS, Python 3.14.7; dependências de `requirements.txt` |
+| Cópia limpa | árvore temporária criada de `git archive`, sem arquivos locais do revisor |
 
-Esta revisão confere a versão integrada com a `main` atual. Ela não equivale ao
-envio da atividade no FIAP ON.
+Esta revisão não equivale ao envio da atividade no FIAP ON. A confirmação
+independente de Gabriel sobre a versão e os artefatos finais continua necessária.
 
 ## Preparação e execução
 
-A cópia limpa foi obtida e a suíte foi executada com:
+O README atual permite criar `.venv`, instalar `requirements.txt`, executar a
+suíte e abrir `notebooks/pre_decolagem.ipynb`. A dependência `jupyter` está
+declarada em `requirements.txt`.
+
+Na cópia limpa, foram executados:
 
 ```sh
-python3 -m unittest discover -s tests -v
+python -m unittest discover -s tests -v
+python -m jupyter nbconvert --to notebook --execute --inplace notebooks/pre_decolagem.ipynb
 ```
 
-Resultado: **40 testes executados, 40 aprovados, 0 falhas**.
-
-O README ainda não tem instruções de instalação/execução, portanto não foi
-possível preparar o ambiente seguindo apenas esse arquivo, como pede a issue.
-Também não há Jupyter instalado nem declarado em `requirements.txt`. Para
-validar a lógica do notebook sem alegar uma execução por kernel Jupyter, as
-células de código foram executadas em ordem com Python 3.14.7 na cópia limpa.
-Essa limitação é registrada como bloqueio abaixo.
+Resultado: **48 testes executados, 48 aprovados, 0 falhas**. O notebook foi
+executado do início ao fim pelo kernel Jupyter e teve as saídas persistidas.
 
 ## Resultados reproduzidos do notebook
 
-| Cenário | Decisão observada | Saldo | Autonomia | Motivo observado |
-| --- | --- | ---: | ---: | --- |
-| `dados/nominal.json` | `PRONTO PARA DECOLAR` | 56,0 kWh | 5,6 h | nenhum |
-| `dados/falha_modulo.json` | `DECOLAGEM ABORTADA` | 56,0 kWh | 5,6 h | `Modulo critico em falha: propulsao` |
-| `dados/falha_energia.json` | `DECOLAGEM ABORTADA` | -4,0 kWh | `None` | `Energia insuficiente: saldo de -4.0 kWh` |
+| Cenário | Entrada observada | Decisão | Saldo | Autonomia | Motivo observado |
+| --- | --- | --- | ---: | ---: | --- |
+| `dados/nominal.json` | temperatura interna 22 °C; pressão 100 kPa | `PRONTO PARA DECOLAR` | 56,0 kWh | 5,6 h | nenhum |
+| `dados/falha_temperatura.json` | temperatura interna 31 °C | `DECOLAGEM ABORTADA` | 56,0 kWh | 5,6 h | acima do máximo de 30 °C |
+| `dados/falha_energia.json` | energia 80%; consumo de decolagem 80 kWh | `DECOLAGEM ABORTADA` | -4,0 kWh | não calculada | energia insuficiente |
+| `dados/entrada_invalida.json` | pressão do tanque ausente | `DECOLAGEM ABORTADA` | indisponível | indisponível | campo obrigatório ausente |
 
-O notebook usa os limites atuais de `src.missao.LIMITES_PADRAO`: energia de
-50–100% e pressão de 90–110 kPa. A divergência de limites apontada no rascunho
-anterior foi corrigida na `main` e **não é um bloqueio nesta versão**.
+O notebook mostra a telemetria com unidades, os módulos críticos, a decisão e
+o balanço energético. Ele usa `src.missao.executar_cenario` e
+`src.apresentacao.formatar_resultado`; a apresentação não recalcula a decisão
+nem a energia. Os JSONs fixos mantêm a demonstração reproduzível sem API key
+ou internet. A geração de dados por IA permanece uma extensão opcional e não
+é acionada por este fluxo determinístico.
 
 ## Rastreabilidade de um caso
 
-O caso rastreado foi `dados/falha_modulo.json`.
+O caso rastreado foi `dados/falha_temperatura.json`:
 
-| Etapa | Evidência | Resultado |
-| --- | --- | --- |
-| JSON | `modulos.propulsao` é `FALHA`; os demais módulos são `OK` | entrada consistente |
-| Energia | 100 kWh × 80%; perdas de 5%; consumo de 20 kWh | saldo de 56,0 kWh; autonomia de 5,6 h |
-| Decisão | `executar_cenario()` | `DECOLAGEM ABORTADA` por falha de propulsão |
-| Notebook | célula de cenário de falha operacional | mesmo resultado impresso |
-| Prints e PDF | não existem artefatos versionados | não verificável, bloqueio |
+1. O notebook mostra `temperatura_interna_c = 31 °C`, acima do limite máximo
+   didático de 30 °C; pressão, energia e módulos permanecem válidos.
+2. `executar_cenario()` valida a telemetria, calcula a energia e delega a
+   decisão a `verificar_pre_decolagem()`.
+3. A saída mostra `DECOLAGEM ABORTADA`, o motivo da temperatura e o saldo de
+   56,0 kWh com autonomia de 5,6 h.
 
-`energia_pct` e `carga_pct` permanecem ambos em 80, portanto não há divergência
-entre telemetria e cálculo energético nesse caso.
+Não foi observada divergência entre o JSON, a telemetria exibida, o cálculo
+energético e a decisão impressa.
 
 ## Verificação de artefatos públicos
 
-O repositório é público. Os documentos de telemetria, algoritmo, energia,
-análise por IA e reflexão crítica existem no repositório. Porém, a revisão
-encontrou as pendências abaixo:
+O repositório contém notebook, README com instruções, documentação de
+telemetria, algoritmo, energia, análise assistida por IA e reflexão crítica.
+Também contém `src/apresentacao.py` e seus testes. A revisão encontrou duas
+ausências objetivas:
 
-- não há PDF final versionado para conferir os seis tópicos, legibilidade,
-  nomes e link do repositório;
-- não há imagens/prints versionados;
-- o README explica o escopo, mas não contém instruções reproduzíveis de
-  instalação, execução dos testes ou abertura do notebook;
-- `src/apresentacao.py` não existe e o notebook declara explicitamente que
-  `exibir_cenario` é temporária; logo, ainda não há prova de uso do módulo de
-  apresentação da issue #10.
+- não há imagens de evidência versionadas em `evidencias/` nem prints
+  incorporados ao README;
+- não há PDF final nem fonte editável em `relatorio/` para conferir os seis
+  tópicos, legibilidade, integrantes e link público.
 
 ## Achados e reteste
 
 | # | Problema | Como reproduzir | Esperado | Obtido | Responsável | Estado |
 | --- | --- | --- | --- | --- | --- | --- |
-| 1 | README sem instruções de instalação e execução, inclusive da dependência Jupyter. | Abrir `README.md` e `requirements.txt` em clone limpo. | Preparar e abrir o notebook só pelo README. | Não há passos de execução e Jupyter não é declarado. | Eduardo (#9), com apoio de Guilherme para integração. | **Bloqueante, pendente** |
-| 2 | Não há PDF final nem prints/imagens versionados. | Procurar arquivos `.pdf`, `.png`, `.jpg`, `.jpeg` e `.gif`. | Conferir os seis tópicos, legibilidade e consistência visual. | Nenhum desses arquivos está no repositório. | Eduardo (#11) e Gabriel (#10). | **Bloqueante, pendente** |
-| 3 | O módulo oficial de apresentação não está integrado. | Verificar `src/apresentacao.py` e os imports do notebook. | Notebook usa a função oficial de #10. | O arquivo não existe; o notebook usa `exibir_cenario` temporária. | Gabriel (#10), integração por Guilherme (#4). | **Bloqueante, pendente** |
-| 4 | Execução por kernel Jupyter não é reproduzível pelo projeto. | Seguir README e `requirements.txt` em clone limpo. | Reiniciar kernel e executar todas as células. | Jupyter não está instalado nem documentado; as células foram validadas apenas por execução sequencial em Python. | Eduardo (#9), com apoio de Guilherme. | **Bloqueante, pendente** |
+| 1 | Evidências visuais ausentes. | Procurar `evidencias/` e imagens no README. | Capturas legíveis de caso nominal, aborto e energia, com legenda e procedimento. | Nenhuma imagem versionada. | Gabriel (#10). | **Bloqueante para entrega, pendente** |
+| 2 | PDF final e fonte editável ausentes. | Procurar `relatorio/` e arquivos `.pdf`. | Relatório com os itens exigidos, código, análises, imagens, integrantes e links. | Nenhum PDF ou fonte versionada. | Eduardo (#11). | **Bloqueante para entrega, pendente** |
+| 3 | Confirmação independente sobre os artefatos finais pendente. | Após publicar imagens e PDF, Gabriel deve abrir a versão final em cópia limpa. | Reteste documentado da versão e conclusão final. | A execução técnica acima foi atualizada por Guilherme; Gabriel ainda precisa confirmar de forma independente. | Gabriel (#15). | **Pendente** |
 
-Não foi encontrado bloqueio no núcleo de validação, energia ou decisão: a suíte
-completa e os três cenários acima foram retestados na cópia limpa.
+Não há bloqueio atual no núcleo de validação, decisão, energia, apresentação,
+instruções de execução ou notebook.
 
 ## Conclusão e handoff
 
-**Bloqueado para conferência de entrega.** O núcleo Python está funcional e
-reproduzível no ambiente testado, mas os quatro achados de empacotamento e
-integração impedem validar a entrega completa solicitada pela FIAP. Após as
-correções, o responsável deve executar o notebook por Jupyter em cópia limpa,
-conferir PDF e imagens e repetir a suíte antes de mudar esta conclusão para
-apta.
-
-Esta conclusão deve ser encaminhada a Guilherme na issue #12; ela não fecha a
-issue #15 nem autoriza o envio no portal.
+**Núcleo técnico apto; entrega final bloqueada somente pelos artefatos acima.**
+O código, a suíte e o notebook foram reexecutados em cópia limpa com sucesso.
+Depois de publicar as imagens e o PDF, Gabriel deve reabrir a versão final,
+conferir os artefatos e registrar a conclusão independente nesta PR ou na
+Issue #15. A Issue #12 continua responsável pela conferência do grupo e pelo
+envio confirmado no FIAP ON.
