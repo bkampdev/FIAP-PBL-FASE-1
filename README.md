@@ -11,7 +11,8 @@ apresenta os motivos de uma falha.
 ## Entrega final
 
 - [Relatório completo em PDF](relatorio/relatorio-pre-decolagem.pdf)
-- [Fonte editável do relatório](relatorio/relatorio-pre-decolagem.md)
+- [Versão textual editável do relatório](relatorio/relatorio-pre-decolagem.md)
+- [Fonte executável do PDF](scripts/gerar_relatorio.py)
 - [Notebook executado](notebooks/pre_decolagem.ipynb)
 - [Checklist de entrega](docs/entrega.md)
 - [Revisão técnica](docs/revisao-final.md)
@@ -98,8 +99,8 @@ dados/       cenários JSON reproduzíveis
 docs/        telemetria, algoritmo, energia, IA, reflexão e revisão
 evidencias/  imagens geradas a partir da execução do notebook
 notebooks/   notebook principal da atividade
-relatorio/   PDF final e fonte editável
-scripts/     geradores reproduzíveis dos artefatos finais
+relatorio/   PDF final e versão textual editável
+scripts/     fontes executáveis dos artefatos finais
 src/         módulos Python da solução
 tests/       suíte automatizada
 ```

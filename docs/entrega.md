@@ -26,7 +26,7 @@ envio e registrar data/hora.
   procedimento e origem documentados.
 - [x] PDF com os itens 1.1–1.6, código, fórmulas, evidências, equipe,
   referências e links.
-- [x] Fonte editável do relatório e scripts de reprodução versionados.
+- [x] Versão textual editável e fontes executáveis dos artefatos versionadas.
 - [x] Os cinco integrantes aparecem no Grupo 16 no FIAP ON, conferido em
   16/09/2026.
 - [x] Nenhum segredo, credencial, comprovante privado ou material didático

@@ -1,7 +1,8 @@
-"""Gera o relatório PDF final da atividade integradora.
+"""Fonte executável do relatório PDF final da atividade integradora.
 
-O conteúdo textual editável está em relatorio/relatorio-pre-decolagem.md.
-Este script aplica a diagramação, as tabelas e as evidências visuais.
+O Markdown em ``relatorio/relatorio-pre-decolagem.md`` mantém uma versão
+textual editável para revisão humana. Alterações de conteúdo devem ser
+refletidas neste gerador, que controla a diagramação, tabelas e evidências.
 """
 
 from pathlib import Path
@@ -17,7 +18,6 @@ from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
     Image,
-    KeepTogether,
     NextPageTemplate,
     PageBreak,
     PageTemplate,
@@ -34,10 +34,8 @@ SAIDA = RAIZ / "relatorio" / "relatorio-pre-decolagem.pdf"
 EVIDENCIAS = RAIZ / "evidencias"
 
 AZUL = colors.HexColor("#10172A")
-AZUL_2 = colors.HexColor("#192440")
 ROXO = colors.HexColor("#6D5CE7")
 CIANO = colors.HexColor("#18B7A0")
-VERMELHO = colors.HexColor("#D84D69")
 TEXTO = colors.HexColor("#20283A")
 SUAVE = colors.HexColor("#62708B")
 LINHA = colors.HexColor("#D9E0EE")
@@ -124,7 +122,7 @@ def h2(texto):
     return Paragraph(texto, styles["Subsecao"])
 
 
-def tabela(dados, larguras, cabecalho=True, tamanhos=None):
+def tabela(dados, larguras, cabecalho=True):
     convertidos = []
     for indice_linha, linha in enumerate(dados):
         linha_convertida = []

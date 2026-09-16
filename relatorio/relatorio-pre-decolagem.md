@@ -1,6 +1,7 @@
 # ATIVIDADE INTEGRADORA — RELATÓRIO OPERACIONAL DE PRÉ-DECOLAGEM
 
-**FIAP — Fase 1: Decolagem da Missão**  
+**FIAP — Fase 1: Decolagem da Missão**
+
 **Grupo 16 — 16 de setembro de 2026**
 
 ## Equipe
@@ -244,7 +245,8 @@ Resultado: **48 testes aprovados, 0 falhas**, e notebook executado integralmente
 O projeto atende aos seis itens técnicos solicitados: telemetria organizada,
 algoritmo, script Python, análise energética, análise assistida por IA e
 reflexão crítica. O repositório inclui notebook executável, README com
-instruções e prints, fonte editável e este PDF.
+instruções e prints, esta versão textual editável e o PDF. A fonte executável
+da diagramação está em `scripts/gerar_relatorio.py`.
 
 A separação entre validação, energia, decisão e apresentação reduz ambiguidades
 e permite rastrear cada resultado. O uso de dados sintéticos e limites

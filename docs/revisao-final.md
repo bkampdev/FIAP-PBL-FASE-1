@@ -52,7 +52,8 @@ relatório.
 - `evidencias/01-nominal.png`: saída nominal legível.
 - `evidencias/02-aborto.png`: aborto por temperatura legível.
 - `evidencias/03-energia.png`: aborto energético legível.
-- `relatorio/relatorio-pre-decolagem.md`: fonte editável.
+- `relatorio/relatorio-pre-decolagem.md`: versão textual editável.
+- `scripts/gerar_relatorio.py`: fonte executável da diagramação do PDF.
 - `relatorio/relatorio-pre-decolagem.pdf`: 13 páginas revisadas visualmente,
   com os seis tópicos, código, fórmulas, imagens, integrantes e links.
 - `docs/entrega.md`: separa conferência local de submissão no portal.
