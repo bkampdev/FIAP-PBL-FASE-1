@@ -8,7 +8,7 @@
 * `potencia_media_kw` (kW): Potência média exigida para o voo de cruzeiro após a decolagem.
 
 ## 2. Hipóteses e Fórmulas
-1. Energia Inicial Storeada ($E_{inicial}$):
+1. Energia Inicial Armazenada ($E_{inicial}$):
    $$E_{inicial} = \text{capacidade\_kwh} \times \left(\frac{\text{carga\_pct}}{100}\right)$$
 
 2. Perdas de Bateria ($E_{perdas}$):
@@ -27,10 +27,10 @@
    * Capacidade, consumo, percentuais e potência informada devem ser números finitos nos domínios indicados. Valores inválidos, inclusive potência zero/negativa, geram `ValueError`.
 
 ## 3. Exemplo Calculado Manualmente
-* Dados: Capacidade = 100 kWh | Carga = 80% | Perdas = 10% | Decolagem = 20 kWh | Potência = 10 kW
+* Dados: Capacidade = 100 kWh | Carga = 80% | Perdas = 5% | Decolagem = 20 kWh | Potência = 10 kW
 * Cálculo:
   * $E_{inicial} = 100 \times 0.80 = 80\text{ kWh}$
-  * $E_{perdas} = 80 \times 0.10 = 8\text{ kWh}$
-  * $E_{util} = 80 - 8 = 72\text{ kWh}$
-  * $E_{saldo} = 72 - 20 = 52\text{ kWh}$
-  * $A_h = \frac{52}{10} = 5,2\text{ horas}$ ($\text{Viável} = \text{True}$)
+  * $E_{perdas} = 80 \times 0.05 = 4\text{ kWh}$
+  * $E_{util} = 80 - 4 = 76\text{ kWh}$
+  * $E_{saldo} = 76 - 20 = 56\text{ kWh}$
+  * $A_h = \frac{56}{10} = 5,6\text{ horas}$ ($\text{Viável} = \text{True}$)

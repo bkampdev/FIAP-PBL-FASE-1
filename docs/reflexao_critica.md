@@ -8,7 +8,7 @@ Nosso projeto é um simulador educacional de verificação de pré-decolagem de 
 
 Uma decisão de segurança precisa ser explicável. Por isso, a `verificar_pre_decolagem()` não para na primeira falha: ela registra todos os motivos encontrados. Se a temperatura estiver em 31 °C e o máximo for 30 °C, por exemplo, o resultado mostra o valor e o limite. Isso permite que uma pessoa entenda e audite a decisão.
 
-Também não assumimos segurança quando falta informação. Se o resultado energético estiver ausente ou incompleto, a decolagem é abortada. A separação entre `validar()` e `verificar_pre_decolagem()` segue a mesma ideia: 150% de energia é um dado impossível, enquanto 45% é possível, mas pode ser insuficiente para a decolagem. O Machine Learning também não toma a decisão final: o GaussianMixture apenas gera as leituras sintéticas.
+Também não assumimos segurança quando falta informação. Se o resultado energético estiver ausente ou incompleto, a decolagem é abortada. A separação entre `validar_telemetria()` e `verificar_pre_decolagem()` segue a mesma ideia: 150% de energia é um dado impossível, enquanto 45% é possível, mas pode ser insuficiente para a decolagem. O Machine Learning também não toma a decisão final: o GaussianMixture apenas gera as leituras sintéticas.
 
 ## Eixo 2: Impacto social
 
@@ -25,7 +25,7 @@ No nosso caso, o principal impacto está na forma como o sistema apresenta seus 
 
 ## Eixo 3: Sustentabilidade
 
-O módulo de energia calcula energia inicial, perdas, energia útil e saldo em kWh. Isso aparece, por exemplo, no cenário `energia_insuficiente`, em que uma leitura de 45% pode ser possível, mas não suficiente para a decolagem.
+O módulo de energia calcula energia inicial, perdas, energia útil e saldo em kWh. Isso aparece no cenário `falha_energia.json`: a carga de 80% é válida, mas o consumo de decolagem de 80 kWh deixa saldo de -4 kWh e impede a missão.
 
 A própria computação também consome recursos, mas não medimos consumo elétrico ou emissão de carbono. Portanto, não temos dados para afirmar qual é o impacto ambiental do nosso sistema.
 
