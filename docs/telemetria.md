@@ -51,7 +51,7 @@ A conta adotada pelo módulo de energia é:
 
 `saldo = energia_util - consumo_decolagem_kwh`
 
-`autonomia_h = saldo / potencia_media_kw`, quando há saldo não negativo e potência utilizável.
+`autonomia_h = saldo / potencia_media_kw`, somente quando há saldo positivo e potência utilizável. Com saldo zero ou negativo, não há autonomia após a decolagem e o valor retornado é `None`.
 
 Exemplo nominal: 100 kWh × 80% = 80 kWh; perdas de 5% sobre 80 kWh = 4 kWh; energia útil = 76 kWh; após consumo de 20 kWh sobram 56 kWh; a 10 kW, autonomia = **5,6 h**.
 
