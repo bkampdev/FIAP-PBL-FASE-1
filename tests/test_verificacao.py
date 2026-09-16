@@ -54,6 +54,12 @@ class VerificarPreDecolagemTest(unittest.TestCase):
         self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
         self.assertIn("Energia insuficiente: saldo de 0.0 kWh", resultado["motivos"])
 
+    def test_aborta_quando_resultado_energetico_nao_tem_campos_necessarios(self):
+        resultado = verificar_pre_decolagem(DADOS_NOMINAIS, {}, LIMITES)
+
+        self.assertEqual("DECOLAGEM ABORTADA", resultado["decisao"])
+        self.assertIn("Resultado energetico invalido", resultado["motivos"])
+
     def test_aborta_sem_erro_quando_integridade_for_zero(self):
         dados = dict(DADOS_NOMINAIS, integridade_estrutural=0)
 

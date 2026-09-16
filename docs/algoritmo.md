@@ -1,7 +1,7 @@
 # Algoritmo de verificação pré-decolagem
 
 ## 1. Entradas
-- `dados`: telemetria (#13) com temperaturas, pressão, carga, `integridade_estrutural` e `modulos`.
+- `dados`: telemetria (#13) já validada estruturalmente por `src.validacao.validar_telemetria`, com temperaturas, pressão, carga, `integridade_estrutural` e `modulos`.
 - `energia`: resultado do cálculo energético (#6), dicionário com `viavel` e `saldo_kwh`.
 - `limites`: faixas operacionais [mínimo, máximo] definidas em #2.
 
@@ -17,7 +17,7 @@
 - Todas as falhas são acumuladas; o algoritmo não para na primeira.
 
 ## 3. Pseudocódigo
-Presente no arquivo: pseudocodigo_verificacao.md
+Presente no arquivo: `src/pseudocodigo_verificacao.md`.
 
 ## 4. Saída
 - Sem motivos: `{"decisao": "PRONTO PARA DECOLAR", "motivos": []}`
