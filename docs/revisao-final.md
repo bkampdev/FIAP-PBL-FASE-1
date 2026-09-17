@@ -1,94 +1,114 @@
 # Revisão independente de integração e usabilidade
 
-## Identificação da versão avaliada
+## Conclusão
+
+**APTA PARA SUBMISSÃO NO FIAP ON.**
+
+A versão final foi executada em cópia limpa, os artefatos foram comparados
+com as entradas e ficaram publicamente acessíveis após o merge. Não foram
+encontrados bloqueadores no código, notebook, README, evidências ou PDF.
+
+Esta conclusão encerra a revisão técnica da issue #15, mas não equivale ao
+envio da atividade. A issue #12 continua responsável pela submissão e pela
+confirmação do status no portal.
+
+## Responsabilidade e transparência
+
+A revisão estava originalmente atribuída a Gabriel. A execução final descrita
+neste documento foi realizada pelo Codex, como revisor técnico independente,
+sob coordenação e autorização de Guilherme. Nenhuma ação ou confirmação é
+atribuída falsamente a Gabriel.
+
+## Versão avaliada
 
 | Campo | Valor |
 | --- | --- |
-| Código avaliado | `a487de440d1fd0851113ebd7a585fc0522174b86` (merge da PR #27) |
-| Branch da revisão | `15-revisar-independentemente-execução-documentação-e-consistência-da-entrega` / PR #26 |
-| Data da atualização técnica | 16/09/2026 |
-| Responsável pela revisão independente | Gabriel (@ItsTheContext) |
-| Atualização técnica | Guilherme, com execução automatizada registrada abaixo |
-| Ambiente da execução limpa | macOS, Python 3.14.7; dependências de `requirements.txt` |
-| Cópia limpa | árvore temporária criada de `git archive`, sem arquivos locais do revisor |
+| Commit da branch candidata | `43529ea` |
+| Commit de merge na `main` | `9c3205f82d9bbc468cd8f202119ff408cf8b24bd` |
+| Equivalência | os dois commits possuem a mesma árvore Git (`5c9daeb3`) |
+| Data da revisão | 16/09/2026 |
+| Ambiente limpo | arquivo criado por `git archive`, venv nova e Python 3.14.7 |
+| Instalação | `python -m pip install -r requirements.txt` |
 
-Esta revisão não equivale ao envio da atividade no FIAP ON. A confirmação
-independente de Gabriel sobre a versão e os artefatos finais continua necessária.
+## Procedimento reproduzido
 
-## Preparação e execução
-
-O README atual permite criar `.venv`, instalar `requirements.txt`, executar a
-suíte e abrir `notebooks/pre_decolagem.ipynb`. A dependência `jupyter` está
-declarada em `requirements.txt`.
-
-Na cópia limpa, foram executados:
+A revisão partiu de uma árvore exportada do commit candidato, sem arquivos
+não versionados. Em seguida, foi criado um ambiente virtual novo e executado:
 
 ```sh
+python -m pip install -r requirements.txt
 python -m unittest discover -s tests -v
 python -m jupyter nbconvert --to notebook --execute --inplace notebooks/pre_decolagem.ipynb
+python scripts/gerar_evidencias.py
+python scripts/gerar_relatorio.py
 ```
 
-Resultado: **48 testes executados, 48 aprovados, 0 falhas**. O notebook foi
-executado do início ao fim pelo kernel Jupyter e teve as saídas persistidas.
+Resultados:
 
-## Resultados reproduzidos do notebook
+- **48 testes aprovados, 0 falhas**;
+- notebook executado integralmente, sem outputs de erro;
+- três imagens regeneradas em PNG 1600 x 900;
+- PDF regenerado com 13 páginas;
+- link `https://github.com/bkampdev/FIAP-PBL-FASE-1` clicável nas páginas 1, 2 e 13;
+- CodeQL aprovado na PR #29.
 
-| Cenário | Entrada observada | Decisão | Saldo | Autonomia | Motivo observado |
-| --- | --- | --- | ---: | ---: | --- |
-| `dados/nominal.json` | temperatura interna 22 °C; pressão 100 kPa | `PRONTO PARA DECOLAR` | 56,0 kWh | 5,6 h | nenhum |
-| `dados/falha_temperatura.json` | temperatura interna 31 °C | `DECOLAGEM ABORTADA` | 56,0 kWh | 5,6 h | acima do máximo de 30 °C |
-| `dados/falha_energia.json` | energia 80%; consumo de decolagem 80 kWh | `DECOLAGEM ABORTADA` | -4,0 kWh | não calculada | energia insuficiente |
-| `dados/entrada_invalida.json` | pressão do tanque ausente | `DECOLAGEM ABORTADA` | indisponível | indisponível | campo obrigatório ausente |
+## Resultados reproduzidos
 
-O notebook mostra a telemetria com unidades, os módulos críticos, a decisão e
-o balanço energético. Ele usa `src.missao.executar_cenario` e
-`src.apresentacao.formatar_resultado`; a apresentação não recalcula a decisão
-nem a energia. Os JSONs fixos mantêm a demonstração reproduzível sem API key
-ou internet. A geração de dados por IA permanece uma extensão opcional e não
-é acionada por este fluxo determinístico.
+| Cenário | Entrada determinante | Decisão | Saldo | Autonomia |
+| --- | --- | --- | ---: | ---: |
+| `nominal.json` | temperatura interna 22 °C; pressão 100 kPa | `PRONTO PARA DECOLAR` | 56 kWh | 5,6 h |
+| `falha_temperatura.json` | temperatura interna 31 °C | `DECOLAGEM ABORTADA` | 56 kWh | 5,6 h |
+| `falha_energia.json` | consumo de decolagem 80 kWh | `DECOLAGEM ABORTADA` | -4 kWh | não calculada |
+| `entrada_invalida.json` | pressão do tanque ausente | `DECOLAGEM ABORTADA` | indisponível | indisponível |
 
-## Rastreabilidade de um caso
+## Rastreabilidade de um cenário
 
-O caso rastreado foi `dados/falha_temperatura.json`:
+O cenário `falha_temperatura.json` foi acompanhado de ponta a ponta:
 
-1. O notebook mostra `temperatura_interna_c = 31 °C`, acima do limite máximo
-   didático de 30 °C; pressão, energia e módulos permanecem válidos.
-2. `executar_cenario()` valida a telemetria, calcula a energia e delega a
-   decisão a `verificar_pre_decolagem()`.
-3. A saída mostra `DECOLAGEM ABORTADA`, o motivo da temperatura e o saldo de
-   56,0 kWh com autonomia de 5,6 h.
+1. o JSON altera somente a temperatura interna para 31 °C;
+2. o validador preserva o dado como estruturalmente válido;
+3. o módulo energético calcula saldo de 56 kWh e autonomia de 5,6 h;
+4. o verificador compara 31 °C com o máximo didático de 30 °C;
+5. a apresentação mostra `DECOLAGEM ABORTADA` e o motivo da temperatura;
+6. o notebook, `evidencias/02-aborto.png` e o PDF exibem os mesmos valores.
 
-Não foi observada divergência entre o JSON, a telemetria exibida, o cálculo
-energético e a decisão impressa.
+Não foi observada divergência entre JSON, cálculo, decisão, imagem e PDF.
 
-## Verificação de artefatos públicos
+## Verificação dos entregáveis
 
-O repositório contém notebook, README com instruções, documentação de
-telemetria, algoritmo, energia, análise assistida por IA e reflexão crítica.
-Também contém `src/apresentacao.py` e seus testes. A revisão encontrou duas
-ausências objetivas:
+| Requisito | Resultado da revisão |
+| --- | --- |
+| 1.1 Telemetria | campos, unidades, domínios, faixas e cenários documentados |
+| 1.2 Algoritmo | pseudocódigo, regras, fronteiras e decisões presentes |
+| 1.3 Python | leitura, validação, energia, decisão e apresentação integradas |
+| 1.4 Energia | fórmulas, substituição numérica, saldo e autonomia coerentes |
+| 1.5 IA | prompt, resposta, anomalias, riscos e revisão humana registrados |
+| 1.6 Reflexão | ética, impacto social e sustentabilidade contemplados |
+| README | explicação, execução, equipe, arquitetura, prints e links |
+| Notebook | versionado, executado e sem dependência de API key |
+| PDF | 13 páginas, legível, com os seis tópicos e GitHub clicável |
 
-- não há imagens de evidência versionadas em `evidencias/` nem prints
-  incorporados ao README;
-- não há PDF final nem fonte editável em `relatorio/` para conferir os seis
-  tópicos, legibilidade, integrantes e link público.
+## Acesso público após o merge
 
-## Achados e reteste
+Foram consultados sem autenticação os arquivos na branch `main`:
 
-| # | Problema | Como reproduzir | Esperado | Obtido | Responsável | Estado |
-| --- | --- | --- | --- | --- | --- | --- |
-| 1 | Evidências visuais ausentes. | Procurar `evidencias/` e imagens no README. | Capturas legíveis de caso nominal, aborto e energia, com legenda e procedimento. | Nenhuma imagem versionada. | Gabriel (#10). | **Bloqueante para entrega, pendente** |
-| 2 | PDF final e fonte editável ausentes. | Procurar `relatorio/` e arquivos `.pdf`. | Relatório com os itens exigidos, código, análises, imagens, integrantes e links. | Nenhum PDF ou fonte versionada. | Eduardo (#11). | **Bloqueante para entrega, pendente** |
-| 3 | Confirmação independente sobre os artefatos finais pendente. | Após publicar imagens e PDF, Gabriel deve abrir a versão final em cópia limpa. | Reteste documentado da versão e conclusão final. | A execução técnica acima foi atualizada por Guilherme; Gabriel ainda precisa confirmar de forma independente. | Gabriel (#15). | **Pendente** |
+- README: HTTP 200;
+- notebook: HTTP 200;
+- PDF: HTTP 200;
+- três PNGs de evidência: HTTP 200.
 
-Não há bloqueio atual no núcleo de validação, decisão, energia, apresentação,
-instruções de execução ou notebook.
+## Achados da revisão e resolução
 
-## Conclusão e handoff
+1. A URL do GitHub existia no PDF, mas foi promovida para a capa com texto completo e link clicável.
+2. O exemplo energético divergente foi alinhado para perdas de 5%, saldo de 56 kWh e autonomia de 5,6 h.
+3. A reflexão foi alinhada ao cenário versionado `falha_energia.json`.
+4. `Pillow` e `reportlab`, responsáveis pelos artefatos, tiveram versões fixadas no `requirements.txt`.
+5. A documentação passou a distinguir a versão textual editável da fonte executável que produz o PDF.
+6. O rascunho duplicado `analise-ia_1.md` foi removido.
 
-**Núcleo técnico apto; entrega final bloqueada somente pelos artefatos acima.**
-O código, a suíte e o notebook foram reexecutados em cópia limpa com sucesso.
-Depois de publicar as imagens e o PDF, Gabriel deve reabrir a versão final,
-conferir os artefatos e registrar a conclusão independente nesta PR ou na
-Issue #15. A Issue #12 continua responsável pela conferência do grupo e pelo
-envio confirmado no FIAP ON.
+## Handoff para a entrega
+
+O repositório está tecnicamente apto. Para concluir a atividade acadêmica,
+Guilherme deve anexar `relatorio/relatorio-pre-decolagem.pdf`, informar o link
+público do repositório e confirmar que o FIAP ON deixou de mostrar “Entrega
+pendente”. O comprovante deve permanecer privado.

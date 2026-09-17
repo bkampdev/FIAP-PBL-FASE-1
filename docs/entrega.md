@@ -4,39 +4,55 @@ Este arquivo organiza a conferência final, mas **não comprova envio no FIAP ON
 A atividade só pode ser considerada entregue depois de o portal confirmar o
 envio e registrar data/hora.
 
-## O que já pode ser conferido no repositório
+## Versão candidata
 
-- [ ] A `main` contém os módulos de telemetria, validação, decisão, energia e
-  orquestração de cenários.
-- [ ] O notebook `notebooks/pre_decolagem.ipynb` foi executado em ambiente
-  limpo e suas saídas foram conferidas.
-- [ ] Há caso nominal, falha de sensor/módulo e falha energética reproduzíveis
-  sem API key ou internet.
-- [ ] A apresentação de resultados da issue #10 está integrada ao notebook.
-- [ ] O README contém execução real, integrantes confirmados, prints e link do
-  relatório final.
-- [ ] O PDF final descreve exatamente a mesma versão/commit do notebook.
-- [ ] A revisão independente (#15) e os testes de Davi (#5) estão concluídos.
+- Branch: `entrega-final-master`
+- Base integrada: `a487de4` (merge da PR #27)
+- Data da consolidação: 16/09/2026
+- Repositório público: https://github.com/bkampdev/FIAP-PBL-FASE-1
+- PDF: `relatorio/relatorio-pre-decolagem.pdf`
+- Notebook: `notebooks/pre_decolagem.ipynb`
 
-## Antes do envio no FIAP ON
+## Conferência realizada
 
-- [ ] Confirmar que os cinco integrantes aparecem no grupo da atividade. A
-  participação no GitHub não regulariza automaticamente o grupo acadêmico.
-- [ ] Confirmar o nome/RM de Eduardo diretamente com ele antes de registrar no
-  portal ou no README.
-- [ ] Abrir o repositório em janela anônima e verificar notebook, PDF e links
-  sem depender de sessão autenticada.
-- [ ] Conferir que nenhum segredo, credencial, comprovante ou material didático
-  exclusivo foi publicado.
-- [ ] Conferir no portal os campos, formatos aceitos e prazo vigente.
+- [x] Módulos de validação, decisão, energia, integração e apresentação
+  presentes e usados pelo notebook.
+- [x] Notebook reiniciado e executado integralmente; outputs persistidos.
+- [x] Casos nominal, temperatura insegura, energia insuficiente e entrada
+  inválida reproduzidos sem API key.
+- [x] Suíte automatizada executada: 48 testes aprovados, 0 falhas.
+- [x] README contém explicação, instruções, equipe, prints e links finais.
+- [x] Evidências de caso nominal, aborto e energia em `evidencias/`, com
+  procedimento e origem documentados.
+- [x] PDF com os itens 1.1–1.6, código, fórmulas, evidências, equipe,
+  referências e links.
+- [x] Versão textual editável e fontes executáveis dos artefatos versionadas.
+- [x] Os cinco integrantes aparecem no Grupo 16 no FIAP ON, conferido em
+  16/09/2026.
+- [x] Nenhum segredo, credencial, comprovante privado ou material didático
+  exclusivo foi incluído.
 
-## Evidência após o envio
+## Pendências que exigem ação humana
 
-- [ ] O portal mostra a entrega como enviada (não apenas rascunho).
-- [ ] Registrar aqui somente status, horário e commit final; preservar o
-  comprovante completo de forma privada.
-- [ ] Avisar os integrantes após a confirmação.
+- [ ] Gabriel deve confirmar independentemente a versão final e os novos
+  artefatos na issue #15/PR #26.
+- [ ] Após o merge, abrir em janela anônima o README, notebook, três imagens e
+  PDF para confirmar o acesso público.
+- [ ] No FIAP ON, anexar o PDF e informar o link público nos campos exibidos
+  pelo formulário.
+- [ ] Confirmar o envio definitivo e verificar que o portal deixou de mostrar
+  “Entrega pendente”.
+- [ ] Guardar o comprovante completo de forma privada e avisar os integrantes.
 
-> Não realizar o envio final com base apenas neste checklist. A confirmação no
-> portal é uma ação separada, feita depois de todos os itens acima estarem
-> efetivamente prontos.
+## Requisitos atuais do FIAP ON
+
+Conferidos diretamente em 16/09/2026:
+
+- relatório PDF contendo dados, códigos, análises e algoritmos;
+- repositório público com notebook `.ipynb`;
+- README com explicação, prints e instruções de execução;
+- prazo exibido: 16/09/2026 às 23h59;
+- avaliação total exibida: 10 pontos.
+
+> PDF no GitHub não equivale a atividade enviada. A issue #12 só deve ser
+> encerrada quando o portal confirmar a submissão.
