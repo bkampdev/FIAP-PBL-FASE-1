@@ -88,3 +88,23 @@ def _numero(valor):
         and not isinstance(valor, bool)
         and math.isfinite(valor)
     )
+
+
+def exibir_cenario_gerado(cenario, dados, resultado):
+    """Imprime os dados gerados e o resultado real em texto compacto."""
+    print(f"\n=== {cenario.replace('_', ' ').capitalize()} ===")
+    print(
+        f"Temperatura: interna {dados['temperatura_interna_c']} °C | "
+        f"externa {dados['temperatura_externa_c']} °C"
+    )
+    print(
+        f"Integridade: {dados['integridade_estrutural']} | "
+        f"Energia: {dados['energia_pct']}% | "
+        f"Pressão: {dados['pressao_tanque_kpa']} kPa"
+    )
+    print("Módulos: " + ", ".join(
+        f"{nome.replace('_', ' ')}={estado}"
+        for nome, estado in dados['modulos'].items()
+    ))
+    # Reutiliza a apresentação existente, omitindo apenas o título redundante.
+    print("\n".join(formatar_resultado(resultado).splitlines()[1:]))

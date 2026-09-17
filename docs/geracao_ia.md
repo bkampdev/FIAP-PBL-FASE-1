@@ -19,7 +19,7 @@ from src.geracao import gerar_telemetria
 
 print(gerar_telemetria("nominal"))
 
-{'temperatura_interna_c': 20.09, 'temperatura_externa_c': -112.93, 'energia_pct': 88.9, 'pressao_tanque_kpa': 424.71, 'integridade_estrutural': 'NOMINAL', 'modulos': {'suporte_vida': 'OK', 'energia': 'OK', 'comunicacao': 'OK', 'propulsao': 'OK', 'navegacao': 'OK'}}
+{'temperatura_interna_c': 20.09, 'temperatura_externa_c': -112.93, 'energia_pct': 88.9, 'pressao_tanque_kpa': 104.71, 'integridade_estrutural': 'NOMINAL', 'modulos': {'suporte_vida': 'OK', 'energia': 'OK', 'comunicacao': 'OK', 'propulsao': 'OK', 'navegacao': 'OK'}}
 
 
 ## Integração com a missão
@@ -39,3 +39,12 @@ O notebook mostra os dados sorteados, origem e decisão. Para depuração ou
 testes apenas, `gerar_cenario("nominal", seed=42)` repete a amostra.
 O random_state fixo do treinamento estabiliza o ajuste do modelo; o sorteio
 usa a seed recebida, que por padrão é None.
+
+## Faixa de pressão da base sintética
+
+A base didática foi ajustada de 414–424 kPa para aproximadamente 94–104 kPa,
+compatível com os limites de 90–110 kPa definidos no projeto. Esta é uma
+correção da base sintética, não uma conversão de unidades nem uma alteração
+dos limites de segurança. Os sorteios continuam aleatórios e não são
+recortados ou substituídos para aprovar. O cenário nominal ainda pode abortar
+por falhas sorteadas nos módulos; os outros três cenários forçam falhas.

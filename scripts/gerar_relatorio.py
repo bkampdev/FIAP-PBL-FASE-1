@@ -465,7 +465,18 @@ print(formatar_resultado(resultado))"""
     ]
 
     story += [
-        h1("12. Validação, conclusão e referências"),
+        h1("12. Gerador de telemetria integrado"),
+        p("O notebook importa gerar_cenario de src.geracao, executar_cenario de src.missao e a apresentação de src.apresentacao. A saída é textual e mostra temperaturas, integridade, energia, pressão, módulos, decisão, motivos e autonomia."),
+        h2("Correção da base sintética"),
+        p("A base de treinamento continha pressões próximas de 420 kPa, incompatíveis com a faixa didática de segurança de 90 a 110 kPa. A base sintética foi corrigida para aproximadamente 94 a 104 kPa, centrada perto de 100 kPa. Não houve conversão de unidades nem alteração dos limites do verificador."),
+        h2("Aleatoriedade e decisão"),
+        p("Cada chamada sem seed fixa sorteia novos dados pelo modelo GaussianMixture e pelos estados dos módulos. As amostras são preservadas, sem substituição por JSON fixo ou ajuste posterior para garantir aprovação. O cenário nominal não força falhas, mas ainda pode abortar por falhas sorteadas nos módulos."),
+        p("Os cenários energia_insuficiente, falha_modulo e falha_sensor introduzem falhas deliberadas e devem resultar em DECOLAGEM ABORTADA."),
+        h2("Verificação da correção"),
+        p("Em uma execução de verificação com 100 sorteios nominais sem seed fixa, ocorreram 87 aprovações e 13 abortos. Esta contagem descreve apenas a execução observada; não é uma taxa garantida. Os 52 testes passaram e o notebook foi executado integralmente após a correção."),
+        p("As capturas anteriores são execuções reais dos cenários JSON determinísticos. Elas não representam esta amostragem aleatória. A análise assistida por IA do item 1.5 permanece documentada separadamente do gerador."),
+        PageBreak(),
+        h1("13. Validação, conclusão e referências"),
         h2("Verificação executada em 16/09/2026"),
         Preformatted(
             "python -m unittest discover -s tests -v\n"

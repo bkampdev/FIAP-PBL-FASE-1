@@ -264,3 +264,10 @@ hipotéticos permanece explicitamente identificado.
 - Notebook reexecutado e artefatos consolidados em 16/09/2026.
 - A confirmação do envio no FIAP ON deve ser registrada separadamente; a
   presença deste arquivo no GitHub não equivale à submissão no portal.
+
+
+## Atualização do gerador integrado
+
+O notebook importa os módulos de geração, missão e apresentação e exibe saída textual compacta. A base sintética de pressão foi corrigida de aproximadamente 420 kPa para 94–104 kPa, compatível com os limites didáticos de 90–110 kPa; não houve conversão de unidades nem alteração dos limites. Os dados continuam aleatórios, sem seed fixa na chamada e sem substituição de amostras para aprovar. O nominal pode abortar por falhas sorteadas; os três cenários de falha abortam deliberadamente.
+
+Uma verificação com 100 sorteios nominais produziu 87 aprovações e 13 abortos, contagem observada e não garantida. Os 52 testes passaram e o notebook executou integralmente. As capturas reais já incluídas correspondem aos cenários JSON determinísticos, não à amostragem do gerador.

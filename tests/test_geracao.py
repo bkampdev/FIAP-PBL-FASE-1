@@ -14,7 +14,9 @@ class GeracaoIntegradaTest(unittest.TestCase):
                 resultado = executar_cenario(dados, LIMITES_PADRAO)
                 self.assertEqual(resultado['erros_entrada'], [])
                 self.assertIsNotNone(resultado['energia'])
-                if cenario != 'nominal':
+                if cenario == 'nominal':
+                    self.assertEqual(resultado['decisao'], 'PRONTO PARA DECOLAR')
+                else:
                     self.assertEqual(resultado['decisao'], 'DECOLAGEM ABORTADA')
                 self.assertEqual(dados['geracao']['origem'], 'modelo')
     def test_seed_reproduzivel(self):
