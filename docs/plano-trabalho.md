@@ -17,7 +17,7 @@ a colegas que não participaram desta sessão.
 | README #9 | README.md | explicação, equipe, execução e três imagens |
 | Apresentação #10 | src/apresentacao.py, notebook, evidencias/ | integrada e testada |
 | PDF #11 | relatorio/, scripts/gerar_relatorio.py | seis itens e exemplo executável corrigido |
-| Geração opcional #13 | src/geracao.py, tests/test_geracao.py, notebook | adaptador validado com fallback explícito |
+| Geração opcional #13 | src/geracao.py, tests/test_geracao.py, notebook | adaptador validado sem fallback fixo |
 | Revisão #15 | docs/revisao-final.md e esta conferência | revisão anterior preservada; reteste após alterações |
 | Entrega #12 | docs/entrega.md | depende da confirmação no FIAP ON |
 
@@ -30,7 +30,7 @@ A revisão final anterior declara seu executor real como Codex, não Gabriel.
 
 A geração experimental não equivale a uma API de LLM: o modelo é GaussianMixture.
 A amostra bruta permanece experimental; `gerar_cenario` adapta o contrato e
-expõe o fallback. A análise por IA obrigatória é independente desse gerador.
+preserva as amostras aleatórias, sem substituir dados inseguros. A análise por IA obrigatória é independente desse gerador.
 
 ## Sequência reproduzível
 

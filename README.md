@@ -22,8 +22,8 @@ O repositório público é:
 
 ## Evidências da execução
 
-As imagens abaixo foram geradas a partir dos outputs persistidos do notebook
-executado, sem alteração dos valores. O procedimento e a versão de origem
+As imagens abaixo são capturas reais do VS Code após executar o notebook,
+sem recriação da interface ou edição dos resultados. O procedimento e a versão de origem
 estão documentados em [`evidencias/README.md`](evidencias/README.md).
 
 ### Cenário nominal
@@ -150,4 +150,4 @@ Instale as extensões Python e Jupyter da Microsoft e selecione `.venv/bin/pytho
 
 ### Gerador opcional integrado
 
-`gerar_telemetria` conserva a amostra experimental bruta do modelo. Para usar o contrato da missão, chame `gerar_cenario`, demonstrado no notebook. Uma amostra insegura usa `dados/nominal.json` como fallback explícito, antes de aplicar a falha solicitada. Veja `docs/geracao_ia.md`.
+`gerar_telemetria` conserva a amostra experimental bruta do modelo. Para usar o contrato da missão, chame `gerar_cenario`, demonstrado no notebook. Sem seed fixa, cada chamada sorteia novos dados do modelo; amostras inseguras são preservadas para a decisão de aborto, sem fallback para JSON fixo. Veja `docs/geracao_ia.md`.

@@ -72,4 +72,4 @@ Não foram identificadas falhas nos casos testados.
 
 ## Conferência final
 
-A suíte atual tem 52 testes: os 48 testes integrados e quatro testes do adaptador de geração, cobrindo cenário, seed, origem/fallback e entrada inválida. O resultado de 31 testes acima é histórico.
+A suíte atual tem 52 testes: os 48 testes integrados e quatro testes do adaptador de geração, cobrindo cenário, seed, origem e preservação das amostras e entrada inválida. O resultado de 31 testes acima é histórico.

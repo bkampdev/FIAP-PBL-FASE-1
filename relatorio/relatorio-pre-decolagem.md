@@ -2,7 +2,7 @@
 
 **FIAP — Fase 1: Decolagem da Missão**
 
-**Grupo 16 — 16 de setembro de 2026**
+**16 de setembro de 2026**
 
 ## Equipe
 
@@ -209,12 +209,13 @@ consumo computacional; portanto, não faz alegações ambientais sem dados.
 
 ## 8. Evidências de execução
 
-As imagens em `evidencias/` foram geradas a partir dos outputs persistidos do
-notebook executado:
+As imagens em `evidencias/` são capturas reais da janela do VS Code, obtidas
+após executar o notebook e a suíte de testes pela interface:
 
 1. `01-nominal.png`: decisão positiva, saldo de 56 kWh e autonomia de 5,6 h.
 2. `02-aborto.png`: temperatura interna de 31 °C e aborto explicado.
 3. `03-energia.png`: saldo de -4 kWh, aborto e autonomia indisponível.
+4. `04-testes.png`: terminal integrado com 52 testes aprovados e resultado OK.
 
 O procedimento reproduzível está em `evidencias/README.md`.
 

@@ -1,0 +1,33 @@
+{
+  "origem": "Capturas reais do Visual Studio Code via Computer Use; sem edição de pixels",
+  "data_utc": "2026-09-17T02:34:56.723382+00:00",
+  "base": "777c27f",
+  "execucoes_notebook": [
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+  ],
+  "testes": 52,
+  "arquivos": [
+    {
+      "arquivo": "01-nominal.png",
+      "sha256": "998a2f5958e86c01ee8962e5cdaeee7165ade1d1f29d6b908555bbfce5e4245d"
+    },
+    {
+      "arquivo": "02-aborto.png",
+      "sha256": "40798b5ffbbcdf8484b1ded8afa6248647b089424ef29b473a8bbcf83e526401"
+    },
+    {
+      "arquivo": "03-energia.png",
+      "sha256": "8b3339da6682f3516f465c0e7933e022bea739768049bd5763c42896252ed5f2"
+    },
+    {
+      "arquivo": "04-testes.png",
+      "sha256": "0f3c48055fbb58a6e91218d147580bbf69e12860082c13a43d225522134d2e41"
+    }
+  ],
+  "formato": "PNG sem perdas, preservando os pixels da captura original fornecida pelo Computer Use"
+}

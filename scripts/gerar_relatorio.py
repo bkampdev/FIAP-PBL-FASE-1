@@ -12,6 +12,7 @@ from reportlab.lib.enums import TA_CENTER, TA_LEFT
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
+from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from reportlab.platypus import (
@@ -169,7 +170,7 @@ def rodape(canvas, doc):
     canvas.line(MARGEM_X, 14 * mm, PAGINA_L - MARGEM_X, 14 * mm)
     canvas.setFont(FONTE, 7.5)
     canvas.setFillColor(SUAVE)
-    canvas.drawString(MARGEM_X, 9.5 * mm, "FIAP · Relatório operacional de pré-decolagem · Grupo 16")
+    canvas.drawString(MARGEM_X, 9.5 * mm, "FIAP · Relatório operacional de pré-decolagem")
     canvas.drawRightString(PAGINA_L - MARGEM_X, 9.5 * mm, f"{doc.page}")
     canvas.restoreState()
 
@@ -192,7 +193,8 @@ def fundo_capa(canvas, doc):
 
 def imagem_evidencia(nome, legenda):
     caminho = EVIDENCIAS / nome
-    img = Image(str(caminho), width=174 * mm, height=97.875 * mm)
+    largura, altura = ImageReader(str(caminho)).getSize()
+    img = Image(str(caminho), width=174 * mm, height=174 * mm * altura / largura)
     return [img, p(legenda, "Legenda")]
 
 
@@ -203,7 +205,7 @@ def construir():
         leftMargin=MARGEM_X, rightMargin=MARGEM_X,
         topMargin=MARGEM_TOPO, bottomMargin=MARGEM_BASE,
         title="Relatório Operacional de Pré-Decolagem",
-        author="Grupo 16 — FIAP",
+        author="Equipe — FIAP",
         subject="Atividade Integradora — Fase 1",
     )
     frame_capa = Frame(MARGEM_X, 22 * mm, PAGINA_L - 2 * MARGEM_X, PAGINA_A - 44 * mm, id="capa")
@@ -221,7 +223,7 @@ def construir():
     story = []
     story += [
         Spacer(1, 54 * mm),
-        p("FIAP · FASE 1 · GRUPO 16", "SubCapa"),
+        p("FIAP · FASE 1", "SubCapa"),
         Spacer(1, 5 * mm),
         Paragraph("RELATÓRIO OPERACIONAL<br/>DE PRÉ-DECOLAGEM", styles["TituloCapa"]),
         Spacer(1, 6 * mm),
@@ -423,17 +425,17 @@ print(formatar_resultado(resultado))"""
     story += [h1("8. Evidências — cenário nominal")]
     story += imagem_evidencia(
         "01-nominal.png",
-        "Figura 1 — Telemetria nominal, saldo de 56 kWh, autonomia de 5,6 h e decisão PRONTO PARA DECOLAR.",
+        "Figura 1 — Captura real do VS Code: telemetria nominal, saldo de 56 kWh, autonomia de 5,6 h e decisão PRONTO PARA DECOLAR.",
     )
     story += [
         Spacer(1, 5 * mm),
-        p("A imagem foi diagramada a partir do output persistido na célula correspondente do notebook executado. O JSON de origem é dados/nominal.json."),
+        p("Captura real da janela do VS Code após executar o notebook com o kernel Python 3.12.5. A imagem preserva código, contador e saída da execução. O JSON de origem é dados/nominal.json."),
         PageBreak(),
         h1("9. Evidências — aborto por temperatura"),
     ]
     story += imagem_evidencia(
         "02-aborto.png",
-        "Figura 2 — Temperatura interna de 31 °C, acima do limite de 30 °C, e decisão DECOLAGEM ABORTADA.",
+        "Figura 2 — Captura real do VS Code: temperatura interna de 31 °C, acima do limite de 30 °C, e decisão DECOLAGEM ABORTADA.",
     )
     story += [
         Spacer(1, 5 * mm),
@@ -443,7 +445,7 @@ print(formatar_resultado(resultado))"""
     ]
     story += imagem_evidencia(
         "03-energia.png",
-        "Figura 3 — Saldo de -4 kWh, autonomia não calculada e decisão DECOLAGEM ABORTADA.",
+        "Figura 3 — Captura real do VS Code: saldo de -4 kWh, autonomia não calculada e decisão DECOLAGEM ABORTADA.",
     )
     story += [
         Spacer(1, 5 * mm),
@@ -451,8 +453,19 @@ print(formatar_resultado(resultado))"""
         PageBreak(),
     ]
 
+    story += [h1("11. Evidências — testes no VS Code")]
+    story += imagem_evidencia(
+        "04-testes.png",
+        "Figura 4 — Terminal real do VS Code: 52 testes executados e resultado OK.",
+    )
     story += [
-        h1("11. Validação, conclusão e referências"),
+        Spacer(1, 5 * mm),
+        p("Comando executado no terminal integrado: .venv/bin/python -m unittest discover -s tests -v. A captura mostra o fim da execução, a contagem e o resultado, sem recriação da interface."),
+        PageBreak(),
+    ]
+
+    story += [
+        h1("12. Validação, conclusão e referências"),
         h2("Verificação executada em 16/09/2026"),
         Preformatted(
             "python -m unittest discover -s tests -v\n"

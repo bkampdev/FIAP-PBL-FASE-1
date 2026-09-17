@@ -1,25 +1,26 @@
-# Evidências de execução
+# Capturas reais de execução no VS Code
 
-As três imagens desta pasta são representações legíveis das **saídas reais**
-persistidas em `notebooks/pre_decolagem.ipynb`. O notebook foi reiniciado e
-executado integralmente em 16/09/2026 sobre a base `a487de4` e as alterações
-desta PR. O script `scripts/gerar_evidencias.py` extrai o texto das células e o
-diagrama em PNG; ele não inventa valores nem altera decisões.
+Estas quatro imagens foram capturadas diretamente da janela do Visual Studio
+Code pelo Computer Use. Não foram redesenhadas, recortadas ou alteradas.
+A base do código é `777c27f`, com a remoção local de Grupo 16 do relatório.
+O manifesto `capturas-vscode.json` registra hashes SHA-256 dos arquivos originais.
 
-| Imagem | Entrada | Evidência |
-| --- | --- | --- |
-| `01-nominal.png` | `dados/nominal.json` | sensores dentro das faixas, saldo de 56 kWh, autonomia de 5,6 h e `PRONTO PARA DECOLAR` |
-| `02-aborto.png` | `dados/falha_temperatura.json` | temperatura interna de 31 °C, acima do máximo de 30 °C, e `DECOLAGEM ABORTADA` |
-| `03-energia.png` | `dados/falha_energia.json` | saldo de -4 kWh, autonomia não calculada e `DECOLAGEM ABORTADA` |
+| Arquivo | Execução visível |
+| --- | --- |
+| 01-nominal.png | célula [16], PRONTO PARA DECOLAR, saldo 56 kWh e autonomia 5,6 h |
+| 02-aborto.png | célula [17], 31 °C, DECOLAGEM ABORTADA |
+| 03-energia.png | célula [18], saldo -4 kWh, DECOLAGEM ABORTADA |
+| 04-testes.png | terminal integrado, 52 testes, OK |
 
 ## Como reproduzir
 
-Na raiz do repositório, após instalar `requirements.txt`:
+1. Abra a raiz do projeto no VS Code e o notebook pre_decolagem.ipynb.
+2. Selecione o kernel `.venv/bin/python` e clique em Run All.
+3. Aguarde o fim, salve o notebook e capture a janela nos três cenários.
+4. No terminal integrado execute `.venv/bin/python -m unittest discover -s tests -v`.
+5. Capture o resumo final dos testes, preservando a interface e os resultados.
+6. Salve as capturas com os nomes acima e execute `python scripts/gerar_relatorio.py`.
 
-```sh
-python -m jupyter nbconvert --to notebook --execute --inplace notebooks/pre_decolagem.ipynb
-python scripts/gerar_evidencias.py
-```
-
-Depois, abra as imagens em tamanho natural e compare os valores com as saídas
-do notebook. Nenhuma imagem contém credenciais, e-mails ou dados pessoais.
+O zoom foi ampliado para legibilidade durante as capturas e restaurado depois.
+`gerar_evidencias.py` produz apenas representações opcionais dos outputs em
+`evidencias/diagramadas/`; elas não substituem estes prints nem entram no PDF.

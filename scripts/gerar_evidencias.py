@@ -1,4 +1,4 @@
-"""Gera as imagens de evidência a partir das saídas persistidas no notebook.
+"""Gera representações opcionais em evidencias/diagramadas, não capturas de tela.
 
 As imagens não simulam uma interface: o texto é extraído diretamente dos
 outputs do notebook executado e apenas diagramado para leitura no README/PDF.
@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 RAIZ = Path(__file__).resolve().parents[1]
 NOTEBOOK = RAIZ / "notebooks" / "pre_decolagem.ipynb"
-DESTINO = RAIZ / "evidencias"
+DESTINO = RAIZ / "evidencias" / "diagramadas"
 
 LARGURA, ALTURA = 1600, 900
 FUNDO = "#0B1020"
