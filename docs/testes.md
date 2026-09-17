@@ -69,3 +69,7 @@ Não foram identificadas falhas nos casos testados.
 ## Observação de responsabilidade
 
 `src/verificacao.py` e `tests/test_verificacao.py` pertencem à implementação de decisão de Lorenzo. Esta matriz apenas amplia a cobertura conforme a issue #5 e não modifica as regras daquele módulo.
+
+## Conferência final
+
+A suíte atual tem 52 testes: os 48 testes integrados e quatro testes do adaptador de geração, cobrindo cenário, seed, origem/fallback e entrada inválida. O resultado de 31 testes acima é histórico.

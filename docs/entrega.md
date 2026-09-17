@@ -7,7 +7,7 @@ envio e registrar data/hora.
 ## Versão final no GitHub
 
 - Branch: `main`
-- Commit após a revisão: `0ff621e` (merge da PR #26)
+- Commit após a revisão: base `fc90d6f` e correções da conferência final (ver histórico Git)
 - Data da consolidação: 16/09/2026
 - Repositório público: https://github.com/bkampdev/FIAP-PBL-FASE-1
 - PDF: `relatorio/relatorio-pre-decolagem.pdf`
@@ -20,7 +20,7 @@ envio e registrar data/hora.
 - [x] Notebook reiniciado e executado integralmente; outputs persistidos.
 - [x] Casos nominal, temperatura insegura, energia insuficiente e entrada
   inválida reproduzidos sem API key.
-- [x] Suíte automatizada executada: 48 testes aprovados, 0 falhas.
+- [x] Suíte automatizada executada: 52 testes aprovados, 0 falhas.
 - [x] README contém explicação, instruções, equipe, prints e links finais.
 - [x] Evidências de caso nominal, aborto e energia em `evidencias/`, com
   procedimento e origem documentados.

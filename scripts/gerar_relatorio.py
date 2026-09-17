@@ -351,17 +351,12 @@ FIM"""
         PageBreak(),
     ]
 
-    codigo = """dados, erros = carregar_json(origem)
-erros.extend(validar_telemetria(dados))
-energia = calcular_energia(
-    dados["capacidade_kwh"],
-    dados["carga_pct"],
-    dados["consumo_decolagem_kwh"],
-    dados["perdas_pct"],
-    dados.get("potencia_media_kw"),
-)
-resultado = verificar_pre_decolagem(dados, energia, limites)
-texto = formatar_resultado(resultado)"""
+    codigo = """from src.missao import executar_cenario, LIMITES_PADRAO
+from src.apresentacao import formatar_resultado
+
+# Executar a partir da raiz do repositório.
+resultado = executar_cenario("dados/nominal.json", LIMITES_PADRAO)
+print(formatar_resultado(resultado))"""
     story += [
         h1("4. Script Python — requisito 1.3"),
         p("O notebook importa os módulos do repositório e executa cenários reais. O trecho abaixo resume a integração; cada função mantém uma responsabilidade única."),
@@ -371,7 +366,7 @@ texto = formatar_resultado(resultado)"""
         h2("Apresentação"),
         p("A função <b>formatar_resultado</b> recebe o dicionário final e retorna uma string. Ela mostra cenário, decisão, motivos e energia, lida com valores indisponíveis e não altera o objeto recebido."),
         h2("Testes automatizados"),
-        p("A suíte cobre nominal, limites, cada módulo crítico, integridade, energia positiva/nula/negativa, entradas inválidas, integração e apresentação. Na versão final, 48 testes foram aprovados.", "Destaque"),
+        p("A suíte cobre nominal, limites, cada módulo crítico, integridade, energia positiva/nula/negativa, entradas inválidas, integração e apresentação. Na versão final, 52 testes foram aprovados.", "Destaque"),
         PageBreak(),
     ]
 
@@ -465,7 +460,7 @@ texto = formatar_resultado(resultado)"""
             "notebooks/pre_decolagem.ipynb",
             styles["Codigo"],
         ),
-        p("Resultado: <b>48 testes aprovados, 0 falhas</b>, e notebook executado integralmente.", "Destaque"),
+        p("Resultado: <b>52 testes aprovados, 0 falhas</b>, e notebook executado integralmente.", "Destaque"),
         tabela([
             ["Cenário", "Decisão", "Saldo", "Autonomia"],
             ["nominal", "PRONTO PARA DECOLAR", "56 kWh", "5,6 h"],

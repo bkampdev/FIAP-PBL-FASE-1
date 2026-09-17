@@ -144,3 +144,38 @@ def gerar_telemetria(cenario, seed=None):
                 dicionario_dados["integridade_estrutural"] = "CRITICO"
 
     return dicionario_dados
+
+def gerar_cenario(cenario, seed=None):
+    """Adapta a amostra experimental ao contrato; fallback explícito se insegura.
+
+    O modelo original continua disponível em gerar_telemetria. Sua base não
+    garante faixas operacionais; não truncamos amostras para fazê-las passar.
+    """
+    from pathlib import Path
+    from src.missao import executar_cenario, LIMITES_PADRAO
+
+    if cenario not in CENARIOS:
+        raise ValueError('cenario invalido: ' + str(cenario))
+    dados = gerar_telemetria('nominal', seed=seed)
+    dados['integridade_estrutural'] = int(dados['integridade_estrutural'] == 'NOMINAL')
+    dados.update(capacidade_kwh=100, carga_pct=dados['energia_pct'],
+                 consumo_decolagem_kwh=20, perdas_pct=5, potencia_media_kw=10)
+    resultado = executar_cenario(dados, LIMITES_PADRAO)
+    origem = 'modelo'
+    motivos = []
+    if resultado['decisao'] != 'PRONTO PARA DECOLAR':
+        motivos = resultado['motivos']
+        dados = json.loads((Path(__file__).resolve().parents[1] / 'dados/nominal.json').read_text())
+        origem = 'arquivo_fallback'
+    if cenario == 'energia_insuficiente':
+        dados['consumo_decolagem_kwh'] = dados['capacidade_kwh']
+    elif cenario == 'falha_modulo':
+        dados['modulos']['propulsao'] = 'FALHA'
+    elif cenario == 'falha_sensor':
+        dados['temperatura_interna_c'] = 55.0
+    dados['geracao'] = {'origem': origem, 'cenario': cenario, 'seed': seed,
+                        'motivos_fallback': motivos}
+    erros = executar_cenario(dados, LIMITES_PADRAO)['erros_entrada']
+    if erros:
+        raise ValueError('Cenário gerado inválido: ' + '; '.join(erros))
+    return dados

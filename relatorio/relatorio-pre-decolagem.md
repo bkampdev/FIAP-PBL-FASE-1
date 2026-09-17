@@ -117,16 +117,12 @@ Os módulos possuem responsabilidades separadas:
 Trecho central de integração:
 
 ```python
-dados, erros = carregar_json(origem)
-erros.extend(validar_telemetria(dados))
-energia = calcular_energia(
-    dados["capacidade_kwh"],
-    dados["carga_pct"],
-    dados["consumo_decolagem_kwh"],
-    dados["perdas_pct"],
-    dados.get("potencia_media_kw"),
-)
-resultado = verificar_pre_decolagem(dados, energia, limites)
+from src.missao import executar_cenario, LIMITES_PADRAO
+from src.apresentacao import formatar_resultado
+
+# Executar a partir da raiz do repositório.
+resultado = executar_cenario("dados/nominal.json", LIMITES_PADRAO)
+print(formatar_resultado(resultado))
 ```
 
 A suíte automatizada cobre cenários nominais, limites, falhas de cada módulo,
@@ -231,7 +227,7 @@ python -m unittest discover -s tests -v
 python -m jupyter nbconvert --to notebook --execute --inplace notebooks/pre_decolagem.ipynb
 ```
 
-Resultado: **48 testes aprovados, 0 falhas**, e notebook executado integralmente.
+Resultado: **52 testes aprovados, 0 falhas**, e notebook executado integralmente.
 
 | Cenário | Decisão | Saldo | Autonomia |
 | --- | --- | ---: | ---: |

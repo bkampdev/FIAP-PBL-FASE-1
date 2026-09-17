@@ -111,7 +111,7 @@ tests/       suíte automatizada
 | --- | --- |
 | 1.1 Telemetria | `docs/telemetria.md`, `dados/*.json`, notebook |
 | 1.2 Algoritmo | `docs/algoritmo.md`, `src/pseudocodigo_verificacao.md` |
-| 1.3 Script Python | `src/`, notebook e 48 testes automatizados |
+| 1.3 Script Python | `src/`, notebook e 52 testes automatizados |
 | 1.4 Análise energética | `src/energia.py`, `docs/energia.md`, notebook |
 | 1.5 Análise assistida por IA | `docs/analise-ia.md` |
 | 1.6 Reflexão crítica | `docs/reflexao_critica.md` |
@@ -143,3 +143,11 @@ executar o notebook principal.
 ## Licença
 
 Consulte [`LICENSE`](LICENSE).
+
+### Execução no VS Code
+
+Instale as extensões Python e Jupyter da Microsoft e selecione `.venv/bin/python` como kernel do notebook. Use **Run All**. Os módulos em `src/` são bibliotecas; use o notebook para executar a simulação.
+
+### Gerador opcional integrado
+
+`gerar_telemetria` conserva a amostra experimental bruta do modelo. Para usar o contrato da missão, chame `gerar_cenario`, demonstrado no notebook. Uma amostra insegura usa `dados/nominal.json` como fallback explícito, antes de aplicar a falha solicitada. Veja `docs/geracao_ia.md`.
