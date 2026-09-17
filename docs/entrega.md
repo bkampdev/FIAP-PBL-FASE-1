@@ -4,10 +4,10 @@ Este arquivo organiza a conferência final, mas **não comprova envio no FIAP ON
 A atividade só pode ser considerada entregue depois de o portal confirmar o
 envio e registrar data/hora.
 
-## Versão candidata
+## Versão final no GitHub
 
-- Branch: `entrega-final-master`
-- Base integrada: `a487de4` (merge da PR #27)
+- Branch: `main`
+- Commit após a revisão: `0ff621e` (merge da PR #26)
 - Data da consolidação: 16/09/2026
 - Repositório público: https://github.com/bkampdev/FIAP-PBL-FASE-1
 - PDF: `relatorio/relatorio-pre-decolagem.pdf`
@@ -32,12 +32,15 @@ envio e registrar data/hora.
 - [x] Nenhum segredo, credencial, comprovante privado ou material didático
   exclusivo foi incluído.
 
-## Pendências que exigem ação humana
+## Revisões finais concluídas
 
-- [ ] Gabriel deve confirmar independentemente a versão final e os novos
-  artefatos na issue #15/PR #26.
-- [ ] Após o merge, abrir em janela anônima o README, notebook, três imagens e
-  PDF para confirmar o acesso público.
+- [x] Revisão técnica independente concluída e documentada na PR #26/issue
+  #15, com executor identificado sem atribuição falsa de autoria.
+- [x] README, notebook, PDF e três imagens consultados sem autenticação após
+  o merge; todos responderam HTTP 200.
+
+## Pendências que exigem ação humana no FIAP ON
+
 - [ ] No FIAP ON, anexar o PDF e informar o link público nos campos exibidos
   pelo formulário.
 - [ ] Confirmar o envio definitivo e verificar que o portal deixou de mostrar
